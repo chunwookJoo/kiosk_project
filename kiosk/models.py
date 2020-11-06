@@ -20,7 +20,7 @@ class order_bill(models.Model):
     goods_count = models.IntegerField()
 
 
-class contents(models.Model):
+class content(models.Model):
     goods_name = models.CharField(max_length=50)
     goods_price = models.IntegerField()
     goods_origin = models.CharField(max_length=50)
