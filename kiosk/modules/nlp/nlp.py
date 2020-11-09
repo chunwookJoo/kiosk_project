@@ -35,7 +35,7 @@ def rndModel(new_sentence):
                  '도', '를', '으로', '자', '에', '와', '한', '하다', '저기요', '주세요', '할게요']
     # global order_data
     new_sentence = spacing_okt(new_sentence)
-    print(new_sentence)
+    # print(new_sentence)
     new_sentence = new_sentence.replace("[^ㄱ-ㅎㅏ-ㅣ가-힣 ]", "")
     text = new_sentence
     # 토큰화
@@ -46,8 +46,8 @@ def rndModel(new_sentence):
 
     # 정수 인코딩
     encoded = tokenizer.texts_to_sequences([new_sentence])
-    print(new_sentence)
-    print(encoded)
+    # print(new_sentence)
+    # print(encoded)
 
     if check_new_text(encoded[0]) == False:
         print("이해할수 없는 단어")
@@ -55,19 +55,20 @@ def rndModel(new_sentence):
     else:
         # 패딩
         pad_new = pad_sequences(encoded, maxlen=5)
-        print(pad_new)
+        # print(pad_new)
 
         # 예측
         score = float(tree_clf.predict(pad_new))
-        print(tree_clf.predict(pad_new))
+        return tree_clf.predict(pad_new)
 
 
-while(1):
-    temp = input()
-    if(temp == 'stopModel'):
-        joblib.dump(tokenizer, 'token.pkl')
-        joblib.dump(tree_clf, 'nlp_sample.pkl')
-        joblib.dump(rndModel, 'rndModel')
-        break
-    else:
-        rndModel(temp)
+if __name__ == "__main__":
+    while(1):
+        temp = input()
+        if(temp == 'stopModel'):
+            joblib.dump(tokenizer, 'token.pkl')
+            joblib.dump(tree_clf, 'nlp_sample.pkl')
+            joblib.dump(rndModel, 'rndModel')
+            break
+        else:
+            rndModel(temp)
