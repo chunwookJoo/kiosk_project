@@ -5,11 +5,18 @@ from .models import order_time
 # Create your views here.
 
 
-def index(request, order_id):
+def test(request, order_id):
     timestamp = get_object_or_404(order_time, pk=order_id)
     return render(request, 'html/index.html', {'order_time': timestamp})
 
 
-def test(request):
-    stt_result = rndModel(speech_to_text())
-    return render(request, 'html/test.html', {'stt_result': stt_result})
+def index(request):
+    return render(request, 'html/Logo.html')
+
+
+def heretogo(request):
+    return render(request, 'html/HereToGo.html')
+
+
+def menu(request):
+    return render(request, 'html/Select_Menu.html')
