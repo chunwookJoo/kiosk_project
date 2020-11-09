@@ -1,0 +1,27 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{% static '/css/Main.css'%}">
+        <title>Document</title>
+    </head>
+    <body>
+
+		<div class="Logo_Main">
+            <h1 class="Logo_Text">
+                Welcome to DasanRia
+            </h1>
+                <div class="Bubble_Dark">
+                    반갑습니다. 다산리아 입니다. 주문하시려면 "주문" 이라고 말씀해주세요.
+                </div>
+            <div class="Logo_Img">
+                <img src="{% static '/Img/Main_Logo.jpg'%}">
+            </div>
+            <div class=customer></div>
+        </div>
+    </body>
+
+</html>

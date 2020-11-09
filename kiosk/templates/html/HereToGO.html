@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static '/css/HererToGo.css'%}">
+    <title>Document</title>
+</head>
+    <body>
+        <div class="FtG_Main">
+            <h1 class="Logo_Text">
+                DasanRia
+            </h1>
+            <div class="Bubble_Dark">
+                매장이용과 포장 중 어떤걸<br>이용하시나요?<br>매장이면 "매장",<br>포장이면 "포장" 이라고 말씀해주세요.
+            </div>
+            <div class="FtG_Img">
+                <div>
+                    <img src="{% static '/Img/ForHere.png'%}">
+                    <h4 class="FtG_Text">매장</h4>
+                </div>
+                <div>
+                    <img src="{% static '/Img/ToGo.png'%}" >
+                    <h4 class="FtG_Text">포장</h4>
+                </div>
+            </div>
+            <div class=customer></div>
+            </div>
+        </div>
+    </body>
+</html>
