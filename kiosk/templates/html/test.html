@@ -1,14 +1,103 @@
-<form action="server.cgi" method="post" enctype="multipart/form-data">
-	<input type="file" name="audio" accept="audio/*" capture />
-	<input type="submit" value="Upload" />
-</form>
+{% load static %}
+<div class="stt"></div>
+<div class="id">{{ order_id }}</div>
+<p class="recording" style="visibility: visible;">recording</p>
+<p class="loading" style="visibility: hidden;">loading</p>
+<audio src=""></audio>
+<script>
+	var voices = [];
+	(() => {
+		voices = window.speechSynthesis.getVoices();
+	})();
 
-<h1>{{ order_time.order_time_id }}</h1>
-<ul>
-	{% for order_bill in order_time.order_bill_set.all %}
-	<li>
-		{% for content in order_bill.content_set.all %} {{ content.goods_name }}
-		{{ content.goods_price }} {% endfor %} {{ order_bill.goods_count }}
-	</li>
-	{% endfor %} {{ order_time.order_time }}
-</ul>
+	if (window.speechSynthesis.onvoiceschanged !== undefined) {
+		window.speechSynthesis.onvoiceschanged = setVoiceList;
+	}
+	function speech(txt) {
+		if(!window.speechSynthesis) {
+			alert("음성 재생을 지원하지 않는 브라우저입니다. 크롬, 파이어폭스 등의 최신 브라우저를 이용하세요");
+			return;
+		}
+		var lang = 'ko-KR';
+		var utterThis = new SpeechSynthesisUtterance(txt);
+		utterThis.onend = function (event) {
+			console.log('end');
+		};
+		utterThis.onerror = function(event) {
+			console.log('error', event);
+		};
+		var voiceFound = false;
+		for(var i = 0; i < voices.length ; i++) {
+			if(voices[i].lang.indexOf(lang) >= 0 || voices[i].lang.indexOf(lang.replace('-', '_')) >= 0) {
+				utterThis.voice = voices[i];
+				voiceFound = true;
+			}
+		}
+		if(!voiceFound) {
+			alert('voice not found');
+			return;
+		}
+		utterThis.lang = lang;
+		utterThis.pitch = 1;
+		utterThis.rate = 1; //속도
+		window.speechSynthesis.speak(utterThis);
+	}
+	
+	window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+	const recognition = new SpeechRecognition();
+	// true면 음절을 연속적으로 인식하나 false면 한 음절만 기록함
+	recognition.interimResults = true;
+	// 값이 없으면 HTML의 <html lang="en">을 참고합니다. ko-KR, en-US
+	recognition.lang = "ko-KR";
+	// true means continuous, and false means not continuous (single result each time.)
+	// true면 음성 인식이 안 끝나고 계속 됩니다.
+	recognition.continuous = false;
+	// 숫자가 작을수록 발음대로 적고, 크면 문장의 적합도에 따라 알맞은 단어로 대체합니다.
+	// maxAlternatives가 크면 이상한 단어도 문장에 적합하게 알아서 수정합니다.
+	recognition.maxAlternatives = 10000;
+
+	let p = document.createElement("p");
+	p.classList.add("para");
+
+	let words = document.querySelector(".stt");
+	words.appendChild(p);
+
+	let speechToText = "";
+	recognition.addEventListener("result", (e) => {
+		let interimTranscript = "";
+		for (let i = e.resultIndex, len = e.results.length; i < len; i++) {
+			let transcript = e.results[i][0].transcript;
+			console.log(transcript);
+			if (e.results[i].isFinal) {
+				speechToText += transcript;
+			} else {
+				interimTranscript += transcript + "...";
+			}
+		}
+		document.querySelector(".para").innerHTML = speechToText + interimTranscript;
+	});
+
+	// 음성인식이 끝나면 자동으로 재시작합니다.
+	recognition.addEventListener("end", async () => {
+		document.querySelector(".recording").style.visibility = "hidden";
+		document.querySelector(".loading").style.visibility = "visible";
+		let order_str = encodeURI(speechToText);
+		let nlpRequest = new Request(`http://localhost:8000/nlp/${order_str}`);
+		await fetch(nlpRequest, {headers : { 
+			'Content-Type': 'application/json',
+			'Accept': 'application/json'
+		   }}).then(async (res) => {
+			stt_result = await res.json();
+			console.log(stt_result["result"]);
+			document.querySelector(".id").innerHTML += stt_result["result"]
+		}).then(msg => {console.log(msg)});
+		setTimeout(()=>{speechToText = "";}, 3000);
+		document.querySelector(".loading").style.visibility = "hidden";
+		document.querySelector(".recording").style.visibility = "visible";
+		recognition.start();
+	});
+
+	// 음성 인식 시작
+	recognition.start();
+
+</script>

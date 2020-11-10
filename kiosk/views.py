@@ -1,13 +1,25 @@
+from json import encoder
 from django.shortcuts import get_object_or_404, render
+from django.utils.encoding import uri_to_iri
+from asgiref.sync import sync_to_async
 from .modules.nlp.kakaoak import speech_to_text
 from .modules.nlp.nlp import rndModel
-from .models import order_time
+from .models import *
 # Create your views here.
+
+from django.http.response import HttpResponse, JsonResponse
+
+sync_to_async(rndModel, thread_sensitive=True)
+
+
+def nlp(request, text='내용 없음'):
+    result = {'result': f'{rndModel(uri_to_iri(text))}'}
+    response = JsonResponse(result)
+    return response
 
 
 def test(request, order_id):
-    timestamp = get_object_or_404(order_time, pk=order_id)
-    return render(request, 'html/index.html', {'order_time': timestamp})
+    return render(request, 'html/test.html', {'order_id': order_id})
 
 
 def index(request):

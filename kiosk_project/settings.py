@@ -52,7 +52,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'kiosk_project.urls'
 
-TEMPLATES= [
+TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [BASE_DIR, 'templates'],
@@ -124,4 +124,4 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [os.path.join(BASE_DIR,'static')]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
