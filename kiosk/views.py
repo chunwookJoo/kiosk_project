@@ -28,20 +28,23 @@ def index(request):
 
 def heretogo(request):
     return render(request, 'html/HereToGo.html')
-<<<<<<< HEAD
 
 
-def menu(request):
-    return render(request, 'html/Select_Menu.html')
-=======
 def select_menu(request):
     return render(request, 'html/Select_Menu.html')
+
+
 def menu_combo(request):
     return render(request, 'html/Menu_Combo.html')
+
+
 def menu_single(request):
     return render(request, 'html/Menu_Single.html')
+
+
 def menu_side(request):
     return render(request, 'html/Menu_Side.html')
+
+
 def menu_drink(request):
     return render(request, 'html/Menu_Drink.html')
->>>>>>> bb56c077c629393c5e92d9843420c032cb2aa8e8
