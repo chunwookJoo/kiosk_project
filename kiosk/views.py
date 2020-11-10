@@ -13,3 +13,7 @@ def menu_combo(request):
     return render(request, 'html/Menu_Combo.html')
 def menu_single(request):
     return render(request, 'html/Menu_Single.html')
+def menu_side(request):
+    return render(request, 'html/Menu_Side.html')
+def menu_drink(request):
+    return render(request, 'html/Menu_Drink.html')
