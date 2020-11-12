@@ -1,19 +1,18 @@
-from json import encoder
 from django.shortcuts import get_object_or_404, render
 from django.utils.encoding import uri_to_iri
 from asgiref.sync import sync_to_async
-from .modules.nlp.kakaoak import speech_to_text
 from .modules.nlp.nlp import rndModel
 from .models import *
 # Create your views here.
 
 from django.http.response import HttpResponse, JsonResponse
 
-sync_to_async(rndModel, thread_sensitive=True)
+# sync_to_async(rndModel, thread_sensitive=True)
 
 
-def nlp(request, text='내용 없음'):
+def nlp(request, text):
     result = {'result': f'{rndModel(uri_to_iri(text))}'}
+    print(result)
     response = JsonResponse(result)
     return response
 
@@ -34,12 +33,12 @@ def select_menu(request):
     return render(request, 'html/Select_Menu.html')
 
 
-def menu_combo(request):
-    return render(request, 'html/Menu_Combo.html')
-
-
 def menu_single(request):
     return render(request, 'html/Menu_Single.html')
+
+
+def menu_combo(request):
+    return render(request, 'html/Menu_Combo.html')
 
 
 def menu_side(request):

@@ -25,7 +25,7 @@ SECRET_KEY = 'v_3_2518%i0^e_373&i)6#p9zt*9c+t7uohq*=@ymvh4^mh^a@'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['roddyd.net', '127.0.0.1']
 
 
 # Application definition
@@ -124,4 +124,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'public')]
