@@ -1,11 +1,12 @@
 from django.shortcuts import get_object_or_404, render
 from django.utils.encoding import uri_to_iri
+from django.template import loader
 from asgiref.sync import sync_to_async
 from .modules.nlp.nlp import rndModel
 from .models import *
+from django.http.response import HttpResponse, JsonResponse
 # Create your views here.
 
-from django.http.response import HttpResponse, JsonResponse
 
 # sync_to_async(rndModel, thread_sensitive=True)
 
@@ -47,3 +48,7 @@ def menu_side(request):
 
 def menu_drink(request):
     return render(request, 'html/Menu_Drink.html')
+
+
+def payment(request):
+    return render(request, 'html/Payment.html')

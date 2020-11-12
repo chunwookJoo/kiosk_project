@@ -12,4 +12,5 @@ urlpatterns = [
     path('combo/', views.menu_combo),
     path('side/', views.menu_side),
     path('drink/', views.menu_drink),
+    path('payment/', views.payment),
 ]
