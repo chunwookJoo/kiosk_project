@@ -1,98 +1,104 @@
-.Logo_Main, .FtG_Main, .Select_Main{
-    text-align: center;
-    margin: 0 14rem;
- }
+.Select_Main {
+	text-align: center;
+	margin: 0 8rem;
+}
 
-.Bubble_Dark{
-    position: relative;
-    padding: 2rem 6rem;
-    margin: 4rem 0 2rem 0;
-    background-color: #7CDE77;
+.Bubble_Dark {
+	position: relative;
+	padding: 2rem 3rem;
+	margin: 4rem 0 2rem 0;
+	background-color: #7cde77;
 	color: white;
 	border-radius: 7px;
 
-	-webkit-box-shadow: 0px 4px 13px -2px rgba(0,0,0,0.21);
-	-moz-box-shadow: 0px 4px 13px -2px rgba(0,0,0,0.21);
-	box-shadow: 0px 4px 13px -2px rgba(0,0,0,0.21);
+	-webkit-box-shadow: 0px 4px 13px -2px rgba(0, 0, 0, 0.21);
+	-moz-box-shadow: 0px 4px 13px -2px rgba(0, 0, 0, 0.21);
+	box-shadow: 0px 4px 13px -2px rgba(0, 0, 0, 0.21);
 
-	animation:Bubble_apper 2.2s forwards;
+	animation: Bubble_apper 2.2s forwards;
 }
 
-.Bubble_light{
-    position: relative;
-    padding: 1rem 0;
-    margin: 0 8rem;
-	background-color: #89FF7B;
+.Bubble_light {
+	position: relative;
+	padding: 1rem 0;
+	margin: 0 8rem;
+	color: white;
+	background-color: #7cde77;
 	border-radius: 7px;
-	
-	-webkit-box-shadow: 0px 4px 13px -2px rgba(0,0,0,0.21);
-	-moz-box-shadow: 0px 4px 13px -2px rgba(0,0,0,0.21);
-	box-shadow: 0px 4px 13px -2px rgba(0,0,0,0.21);
+
+	-webkit-box-shadow: 0px 4px 13px -2px rgba(0, 0, 0, 0.21);
+	-moz-box-shadow: 0px 4px 13px -2px rgba(0, 0, 0, 0.21);
+	box-shadow: 0px 4px 13px -2px rgba(0, 0, 0, 0.21);
 }
 
 .Bubble_Dark::before {
-    bottom: 100%;
+	bottom: 100%;
 	left: 50%;
 	border: solid transparent;
 	content: "";
 	height: 0;
 	width: 0;
 	position: absolute;
-	border-bottom-color: #7CDE77;
+	border-bottom-color: #7cde77;
 	border-width: 30px;
 	margin-left: -30px;
 }
 
-.Bubble_light::after{
-    top: 100%;
+.Bubble_light::after {
+	top: 100%;
 	left: 50%;
 	border: solid transparent;
 	content: "";
 	height: 0;
 	width: 0;
 	position: absolute;
-	border-top-color: #89FF7B;
+	border-top-color: #7cde77;
 	border-width: 15px;
 	margin-left: -15px;
 }
 
-@keyframes Bubble_apper{
-	from{
+@keyframes Bubble_apper {
+	from {
 		bottom: 80px;
 		opacity: 0;
 	}
-	to{
-		bottom:0px;
+	to {
+		bottom: 0px;
 		opacity: 1;
 	}
 }
 
-.upSide, .DownSide{
-    display: flex;
+.upSide,
+.DownSide {
+	display: flex;
+}
+
+.upSide {
+	display: flex;
+	padding-top: 130px;
 }
 
 .upSide > div {
-    width: 50%;
-    height: 310px;
+	width: 50%;
+	height: 310px;
 }
 
-.upSide > div > img{
-    width: 100%;
-    height: 60%;
+.upSide > div > img {
+	width: 100%;
+	height: 60%;
+}
+
+.DownSide {
+	display: flex;
+	padding-bottom: 270px;
 }
 
 .DownSide > div {
-    width: 50%;
-    height: 310px;
+	width: 50%;
+	height: 310px;
 }
 
-.DownSide > div > img{
-    width: 100%;
-    height: 60%;
-}
-
-.Car_img{
-    position:absolute;
-    right: 0;
-    margin-right: 14rem;
+.DownSide > div > img {
+	width: 100%;
+	height: 60%;
 }

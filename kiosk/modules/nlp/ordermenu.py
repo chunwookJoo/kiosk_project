@@ -4,8 +4,10 @@ def orderParsing(orderText):
             if ParsingOrder[menu] == 1:
                 ParsingOrder[menu] = num
         return ParsingOrder
-    Menus = ["불고기버거", "치킨버거", "새우버거", "시그니처버거", "감자튀김",
-             "양념감자", "치키너겟", "어니언링", "콜라", "스프라이트", "환타", "맥주"]
+    Menus = ["불고기버거세트", "치킨버거세트", "새우버거세트", "와퍼세트",
+             "불고기버거", "치킨버거", "새우버거", "와퍼",
+             "감자튀김", "양념감자", "치킨너겟", "어니언링",
+             "콜라", "사이다", "환타", "맥주"]
     Ones = ["하나", "한개", "1"]
     Twos = ["둘", "두개", "2"]
     Threes = ["셋", "세개", "3"]
@@ -64,5 +66,12 @@ def orderParsing(orderText):
             if allCheck != -1:
                 ParsingOrder = allChekCount(
                     ParsingOrder, ConfirmationNUM, allChekMenu)
-    print(ParsingOrder)
-    return ParsingOrder
+    result = {}
+    result['result'] = 9
+    ix = 0
+    for key, val in ParsingOrder.items():
+        if val != 0:
+            result[f'{ix}'] = {'name': key, 'qty': int(val)}
+            ix = ix + 1
+    print(result)
+    return result

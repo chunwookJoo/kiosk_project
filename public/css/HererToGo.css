@@ -1,13 +1,11 @@
-.Logo_Main,
-.FtG_Main,
-.Select_Main {
+.FtG_Main {
 	text-align: center;
-	margin: 0 14rem;
+	margin: 0 8rem;
 }
 
 .Bubble_Dark {
 	position: relative;
-	padding: 2rem 6rem;
+	padding: 2rem 3rem;
 	margin: 4rem 0 2rem 0;
 	background-color: #7cde77;
 	color: white;
@@ -24,8 +22,8 @@
 	position: relative;
 	padding: 1rem 0;
 	margin: 0 8rem;
-	background-color: #89ff7b;
 	color: white;
+	background-color: #7cde77;
 	border-radius: 7px;
 
 	-webkit-box-shadow: 0px 4px 13px -2px rgba(0, 0, 0, 0.21);
@@ -54,7 +52,7 @@
 	height: 0;
 	width: 0;
 	position: absolute;
-	border-top-color: #89ff7b;
+	border-top-color: #7cde77;
 	border-width: 15px;
 	margin-left: -15px;
 }
@@ -70,9 +68,18 @@
 	}
 }
 
-.upSide,
-.DownSide {
+.Here {
+	padding-right: 20px;
+}
+
+.ToGo {
+	padding-left: 20px;
+}
+
+.upSide {
 	display: flex;
+	padding-top: 300px;
+	padding-bottom: 410px;
 }
 
 .upSide > div {
@@ -83,20 +90,4 @@
 .upSide > div > img {
 	width: 100%;
 	height: 60%;
-}
-
-.DownSide > div {
-	width: 50%;
-	height: 310px;
-}
-
-.DownSide > div > img {
-	width: 100%;
-	height: 60%;
-}
-
-.Car_img {
-	position: absolute;
-	right: 0;
-	margin-right: 14rem;
 }

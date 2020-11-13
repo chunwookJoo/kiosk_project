@@ -133,10 +133,10 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'public')]
 # SSL / HTTPS
 # https://docs.djangoproject.com/en/3.0/topics/security/
 
-# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-# SECURE_SSL_REDIRECT = True
+SECURE_SSL_REDIRECT = True
 
-# SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
 
-# CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True

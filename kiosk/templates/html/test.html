@@ -1,64 +1,63 @@
 {% load static %}
-<div class="stt"></div>
-<div class="id">{{ order_id }}</div>
-<p class="recording" style="visibility: visible;">recording</p>
-<p class="loading" style="visibility: hidden;">loading</p>
-<audio src=""></audio>
+<style>
+	.bubble{
+		width: 800px;
+		height: 150px;
+	}
+	.box{
+		width: 800px;
+		height: 400px;
+		border: 1px inset solid;
+		display: block;
+	}
+	.hidden{
+		display: none;
+	}
+</style>
+<script src="{% static '/js/tts.js' %}"></script>
+<script src="{% static '/js/stt.js' %}"></script>
 <script>
-	window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-	const recognition = new SpeechRecognition();
-	// true면 음절을 연속적으로 인식하나 false면 한 음절만 기록함
-	recognition.interimResults = true;
-	// 값이 없으면 HTML의 <html lang="en">을 참고합니다. ko-KR, en-US
-	recognition.lang = "ko-KR";
-	// true means continuous, and false means not continuous (single result each time.)
-	// true면 음성 인식이 안 끝나고 계속 됩니다.
-	recognition.continuous = false;
-	// 숫자가 작을수록 발음대로 적고, 크면 문장의 적합도에 따라 알맞은 단어로 대체합니다.
-	// maxAlternatives가 크면 이상한 단어도 문장에 적합하게 알아서 수정합니다.
-	recognition.maxAlternatives = 10000;
-
-	let p = document.createElement("p");
-	p.classList.add("para");
-
-	let words = document.querySelector(".stt");
-	words.appendChild(p);
-
-	let speechToText = "";
-	recognition.addEventListener("result", (e) => {
-		let interimTranscript = "";
-		for (let i = e.resultIndex, len = e.results.length; i < len; i++) {
-			let transcript = e.results[i][0].transcript;
-			console.log(transcript);
-			if (e.results[i].isFinal) {
-				speechToText += transcript;
-			} else {
-				interimTranscript += transcript + "...";
-			}
-		}
-		document.querySelector(".para").innerHTML = speechToText + interimTranscript;
-	});
-
-	// 음성인식이 끝나면 자동으로 재시작합니다.
-	recognition.addEventListener("end", async () => {
-		document.querySelector(".recording").style.visibility = "hidden";
-		document.querySelector(".loading").style.visibility = "visible";
-		let order_str = encodeURI(speechToText);
-		let nlpRequest = new Request(`/nlp/${order_str}`);
-		await fetch(nlpRequest, {headers : { 
-			'Content-Type': 'application/json',
-			'Accept': 'application/json'
-		   }}).then(async (res) => {
-			stt_result = await res.json();
-			console.log(stt_result["result"]);
-			document.querySelector(".id").innerHTML += stt_result["result"]
-		}).then(msg => {console.log(msg)});
-		setTimeout(()=>{speechToText = "";}, 3000);
-		document.querySelector(".loading").style.visibility = "hidden";
-		document.querySelector(".recording").style.visibility = "visible";
+	document.onmousemove = () => {
 		recognition.start();
-	});
-
-	// 음성 인식 시작
-	recognition.start();
+	}
 </script>
+<div class="bubble" id="tts"></div>
+<div class="command"></div>
+
+<div class="box" id="box-1">주문 창</div>
+<div class="box hidden" id="box-2">매장/포장</div>
+<div class="box hidden" id="box-3">메뉴 선택</div>
+<div class="box hidden" id="box-4">세트 메뉴</div>
+<div class="box hidden" id="box-5">싱글 메뉴</div>
+<div class="box hidden" id="box-6">사이드 메뉴</div>
+<div class="box hidden" id="box-7">음료 메뉴</div>
+<div class="box hidden" id="box-8">결제</div>
+
+<div>
+	<p class="receipt">
+		주문 번호: <span id="order-id">{{ order_id }}</span>
+		주문 방법: <span id="here-or-to-go"></span>
+		<table>
+			<thead>
+				<th>
+					<td>품명</td>
+					<td>수량</td>
+					<td>가격</td>
+				</th>
+			</thead>
+			<tbody class="items">
+			</tbody>
+			<tfoot>
+				<th>
+					<td></td>
+					<td></td>
+					<td id="total-price"></td>
+				</th>
+			</tfoot>
+		</table>
+	</p>
+</div>
+<div class="bubble" id="stt"></div>
+<p class="recording">recording</p>
+<p class="loading">loading</p>
+	

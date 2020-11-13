@@ -4,17 +4,16 @@ from django.template import loader
 from asgiref.sync import sync_to_async
 from .modules.nlp.nlp import rndModel
 from .models import *
-from django.http.response import HttpResponse, JsonResponse
+from django.http.response import HttpResponse, HttpResponseRedirect, JsonResponse
 # Create your views here.
 
 
 # sync_to_async(rndModel, thread_sensitive=True)
-
-
 def nlp(request, text):
-    result = {'result': f'{rndModel(uri_to_iri(text))}'}
-    print(result)
-    response = JsonResponse(result)
+    nlp_result = rndModel(uri_to_iri(text))
+    if nlp_result is None:
+        nlp_result = {'result': 0}
+    response = JsonResponse(nlp_result)
     return response
 
 
