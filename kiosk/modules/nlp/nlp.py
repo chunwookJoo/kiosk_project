@@ -59,7 +59,7 @@ def rndModel(new_sentence):
         # print(pad_new)
 
         # 예측
-        score = float(rnd_clf.predict(pad_new))
+        # score = float(rnd_clf.predict(pad_new))
         # print(score)
         result = rnd_clf.predict(pad_new)
         print(result[0])

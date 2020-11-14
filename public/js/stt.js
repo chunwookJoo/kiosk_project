@@ -3,17 +3,42 @@ window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecogn
 window.SpeechGrammarList = window.SpeechGrammarList || window.webkitSpeechGrammarList;
 window.SpeechRecognitionEvent = window.SpeechRecognitionEvent || window.webkitSpeechRecognitionEvent;
 
-let screen = 1;
-let order_id = document.getElementById("order-id");
-let order_confirm = false;
+let price = [
+	["불고기 버거 세트", "새우 버거 세트", "치킨 버거 세트", "와퍼 세트",
+	"불고기 버거", "새우 버거", "치킨 버거", "와퍼",
+	"감자 튀김", "양념 감자", "치킨 너겟", "어니언 링",
+	"콜라", "사이다", "환타", "맥주",],
+	[3500 ,3800 ,3300 ,4500 ,2000 ,2300 ,1800 ,3000,
+		1000, 1400, 2000, 1600, 1000, 1000, 1000, 2500,]
+];
+
+let cart = {
+	"불고기버거세트":0,
+	"새우버거세트":0,
+	"치킨버거세트":0,
+	"와퍼세트":0,
+	"불고기버거":0,
+	"새우버거":0,
+	"치킨버거":0,
+	"와퍼":0,
+	"감자튀김":0,
+	"양념감자":0,
+	"치킨너겟":0,
+	"어니언링":0,
+	"콜라":0,
+	"사이다":0,
+	"환타":0,
+	"맥주":0
+};
 
 let menus = ['메뉴', '싱글', '세트', '음료', '사이드', '매장', '포장', '주문', '결제', 
 '하나', '한', '일', '둘', '두', '이', '셋', '세', '삼', '넷', '네', '사',
 '다섯', '오', '여섯', '육', '일곱', '칠', '여덟', '팔', '아홉', '구', '열', '십',
 '스물', '서른', '마흔', '쉰', '예순', '일흔', '여든', '아흔', '백', '영',
 '불고기', '버거', '새우', '치킨', '와퍼', '세트', '감자', '튀김', '너겟', 
-'어니언링', '양념', '콜라', '사이다', '환타', '맥주'];
+'어니언링', '양념', '콜라', '사이다', '환타', '맥주', '취소'];
 let grammarMenu = '#JSGF V1.0; grammar menus; ' + 'public <menu> = ' + menus.join(' | ') + ' ;';
+
 
 let recognition = new SpeechRecognition();
 let grammarList = new SpeechGrammarList();
@@ -46,22 +71,27 @@ kioskScenario = [
 	["불고기 버거", "새우 버거", "치킨 버거", "와퍼"],
 	["감자 튀김", "양념 감자", "치킨 너겟", "어니언 링"],
 	["콜라", "사이다", "환타", "맥주"],
-	[`주문 내용이 맞으시면 ${ws}결제${we}라고 말씀해주세요.`, "결제하시려면 IC 카드를 방향에 맞게 꽂아주세요.",],
+	[`주문 내용이 맞으시면 ${ws}결제${we}라고 말씀해주세요.`, "결제하시려면 IC 카드를 방향에 맞게 꽂아주세요.", "이용해주셔서 감사합니다."],
 	[" 중에서 원하시는 걸 말씀해주세요.", `${ws}와퍼 하나${we}와 같이 메뉴와 수량을 말씀해주세요.`, `결제하시려면 ${ws}결제${we}라고 말씀해주세요.`,],
 ];
 
-
-
-let texts = document.querySelector(".stt");
+let movePage = false;
+let orderConfirm = false;
+let hotgConfirm = false;
+let completed = false;
+let cartEmpty = true;
 let speechToText = "";
+let tmpText = "";
+let screen = 1;
+let totalPrice = 0;
 
 recognition.onstart = () => {
-	document.querySelector(".loading").style.visibility = "hidden";
-	document.querySelector(".recording").style.visibility = "visible";
+	document.querySelector(".loading").classList.add("hidden");
+	document.querySelector(".recording").classList.remove("hidden");
 };
 recognition.onspeechend = () => {
-	document.querySelector(".loading").style.visibility = "visible";
-	document.querySelector(".recording").style.visibility = "hidden";
+	document.querySelector(".loading").classList.remove("hidden");
+	document.querySelector(".recording").classList.add("hidden");
 	recognition.stop();
 };
 
@@ -77,56 +107,139 @@ recognition.onresult = (event) => {
 			interimTranscript += transcript;
 		}
 	}
-	document.getElementById("stt").innerHTML = speechToText + interimTranscript;
+	document.getElementById("stt").innerHTML = speechToText + interimTranscript + " ";
 };
 
+function printAndSpeech(text){
+	document.getElementById("tts").innerHTML = text;
+	speech(text);
+}
+
+function showBox(){
+	document.querySelectorAll('.Select_Main').forEach((tag) => {
+		tag.classList.add("hidden");
+	});
+	document.querySelector(`#box-${screen}`).classList.remove("hidden");
+}
 
 recognition.onend = async () => {
+	let hotg = document.getElementById("here-or-to-go");
 	let sttEncoded = encodeURI(speechToText);
+	speechToText = " ";
 	let nlpRequest = new Request(`/nlp/${sttEncoded}`);
 	await fetch(nlpRequest, {headers : { 
 		'Content-Type': 'application/json',
 		'Accept': 'application/json'
 	}}).then(async (res) => {
-		sttResult = await res.json();
-		menuResult = sttResult["result"];
-		if (menuResult == 0) {
-			if (screen == 1) speech(kioskScenario[1][0]);
+		let sttResult = await res.json();
+		let menuResult = sttResult["result"];
+		let valueResult = [];
+
+		for (let i = 0; i < sttResult["length"]; i++) {
+			valueResult.push(sttResult[i]);
+		}
+
+		switch (menuResult) {
+		case 0:
+			if (screen == 1) printAndSpeech(kioskScenario[1][0]);
 			else speech(kioskScenario[0][0]);
-		}
-		else if (menuResult == 9) {
-		}
-		else {
-			screen = menuResult;
-			document.querySelectorAll('.box').forEach((tag) => {
-				tag.classList.add("hidden");
+			break;
+		case 9:
+			valueResult.forEach(element => {
+				if (element["name"]) {
+					cartEmpty = false;
+					cart[element["name"]] = element["qty"];
+				}
 			});
-			document.querySelector(`#box-${menuResult}`).classList.remove("hidden");
-			if (screen == 1 || screen == 2) {
-				order_confirm = false;
-				speech(kioskScenario[screen]);
-			} else if (screen == 8) {
-				if (!order_confirm) {
-					order_confirm = true;
-					speech(kioskScenario[8][0]);
+			document.querySelector(".items").innerHTML = "";
+			totalPrice = 0;
+			price[0].forEach((val, index) => {
+				let tmpName = val.replaceAll(" ", "");
+				console.log(tmpName);
+				if (cart[tmpName] != 0) {
+					let tmpPrice = price[1][price[0].indexOf(val)]*cart[tmpName];
+					let tmpString = `<td>${price[0][index]}</td><td>${cart[tmpName]}</td><td>${tmpPrice}</td>`;
+					totalPrice += tmpPrice
+					document.querySelector(".items").innerHTML += tmpString;
+					document.getElementById("total-price").innerHTML = totalPrice;
+				}
+			});
+			speech(kioskScenario[9][2]);
+			break;
+		default:
+			screen = menuResult;
+			switch (screen) {
+			case 1:
+				showBox();
+				totalPrice = 0;
+				cartEmpty = true;
+				hotgConfirm = false;
+				orderConfirm = false;
+				hotg.innerHTML = "";
+				price[0].forEach((val) => {
+					cart[val] = 0;
+				})
+				document.querySelector(".items").innerHTML = "";
+				document.getElementById("total-price").innerHTML = "";
+				printAndSpeech(kioskScenario[screen][0]);
+				break;
+			case 2:
+				showBox();
+				orderConfirm = false;
+				printAndSpeech(kioskScenario[screen][0]);
+				break;
+			case 3:
+				if (!cartEmpty) screen = 8;
+				showBox();
+				orderConfirm = false;
+				if (sttResult[0]["name"] == "매장") {
+					hotg.innerHTML = "매장";
+					hotgConfirm = true;
+				}
+				else if (sttResult[0]["name"] == "포장") {
+					hotg.innerHTML = "포장";
+					hotgConfirm = true;
+				}
+				if (!cartEmpty) printAndSpeech(kioskScenario[screen][0]);
+				else {
+					tmpText = "<strong>" + kioskScenario[screen].join("</strong>, <strong>") + "</strong>" + kioskScenario[9][0];
+					printAndSpeech(tmpText);
+				}
+				break;
+			case 4:
+			case 5:
+			case 6:
+			case 7:
+				showBox();
+				orderConfirm = false;
+				tmpText = "<strong>" + kioskScenario[screen].join("</strong>, <strong>") + "</strong>" + kioskScenario[9].join(" <br>");
+				document.getElementById("tts").innerHTML = tmpText;
+				tmpText = "<strong>" + kioskScenario[screen].join("</strong>, <strong>") + "</strong>" + kioskScenario[9][0];
+				speech(tmpText);
+				break;
+			case 8:
+				if (cartEmpty) {
+					screen = 3;
+					showBox();
+					orderConfirm = false;tmpText = "<strong>" + kioskScenario[screen].join("</strong>, <strong>") + "</strong>" + kioskScenario[9][0];
+					printAndSpeech(tmpText);
+				}
+				else if (!hotgConfirm) {
+					screen = 2;
+					showBox();
+					orderConfirm = false;
+					printAndSpeech(kioskScenario[screen][0]);
+				}
+				else if (!orderConfirm) {
+					showBox();
+					orderConfirm = true;
+					printAndSpeech(kioskScenario[8][0]);
 				}
 				else {
-					order_confirm = false;
-					speech(kioskScenario[8][1]);
+					showBox();
+					completed = true;
+					printAndSpeech(kioskScenario[8][1]);
 				}
-			} else if (screen == 3) {
-				order_confirm = false;
-				let hotg = document.getElementById("here-or-to-go");
-				if (sttResult[0]["name"] == "매장")
-					hotg.innerHTML = "매장";
-				else if (sttResult[0]["name"] == "포장")
-					hotg.innerHTML = "포장";
-				let tmp_text = "<strong>" + kioskScenario[screen].join("</strong>, <strong>") + "</strong>" + kioskScenario[9][0];
-				speech(tmp_text);
-			} else {
-				order_confirm = false;
-				let tmp_text = "<strong>" + kioskScenario[screen].join("</strong>, <strong>") + "</strong>" + kioskScenario[9].join(" <br>");
-				speech(tmp_text);
 			}
 		}
 	}).then(msg => {console.log(msg)});

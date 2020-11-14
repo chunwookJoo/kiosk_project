@@ -1,42 +1,60 @@
 let voices = [];
 let kor_voices = [];
 let lang = 'ko-KR';
+
+function getVoiceList() {
+	voices = window.speechSynthesis.getVoices();
+	for(i = 0; i < voices.length ; i++) {
+		if (voices[i].lang == lang || voices[i].lang == lang.replace("-", "_"))
+			kor_voices.push(voices[i]);
+	}
+}
+
+getVoiceList();
+if (speechSynthesis.onvoiceschanged !== undefined) {
+	speechSynthesis.onvoiceschanged = getVoiceList;
+}
+
 let utterThis = new SpeechSynthesisUtterance();
 
-utterThis.onend = function (event) {
-	recognition.start();
+utterThis.onend = function(event) {
+	if (movePage) location.href = `/test/${Number(document.getElementById("order-id").innerHTML) + 1}`;
+	if (completed) {
+		movePage = true;
+		printAndSpeech(kioskScenario[8][2]);
+	}
+	else recognition.start();
 };
 
 utterThis.onerror = function(event) {
+	if (movePage) location.href = `/test/${Number(document.getElementById("order-id").innerHTML) + 1}`;
+	if (completed) {
+		movePage = true;
+		printAndSpeech(kioskScenario[8][2]);
+	}
 	console.log(event);
 };
 
-if (window.speechSynthesis.onvoiceschanged !== undefined) {
-	window.speechSynthesis.onvoiceschanged = () => {
-		voices = window.speechSynthesis.getVoices();
-	}
-}
-
-for(let i = 0; i < voices.length ; i++) {
-	if (voices[i].lang == lang || voices[i].lang == lang.replace('-', '_')) {
-		kor_voices.push(voices[i]);alert("verified");
-	}
-	if (kor_voices.length == 0) console.log('음성 미발견');
-}
-
-
-utterThis.voice = kor_voices[0];
+utterThis.voice = kor_voices[1];
 utterThis.lang = lang;
-utterThis.pitch = 1;
-utterThis.rate = 1; //속도
+
 
 
 function speech(text) {
-	utterThis.text = text;
+	if (utterThis.voice == null) {
+		utterThis.voice = kor_voices[0];
+		if (utterThis.voice.name.substr(0, 6) == "Google") {
+			utterThis.pitch = 1;
+			utterThis.rate = 1.05; //속도
+		} else if (utterThis.voice.name.substr(0, 9) == "Microsoft") {
+			utterThis.pitch = 1.2;
+			utterThis.rate = 1.6; //속도
+		}
+	}
+	utterThis.text = text.replaceAll("<strong>", "").replaceAll("</strong>", "");
 	if(!window.speechSynthesis) {
 		console.log("음성 재생 미지원");
 		return;
 	}
-	document.getElementById("tts").innerHTML = text;
-	window.speechSynthesis.speak(utterThis);
+	speechSynthesis.speak(utterThis);
 }

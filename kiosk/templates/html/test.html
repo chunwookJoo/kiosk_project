@@ -1,9 +1,5 @@
 {% load static %}
 <style>
-	.bubble{
-		width: 800px;
-		height: 150px;
-	}
 	.box{
 		width: 800px;
 		height: 400px;
@@ -14,24 +10,143 @@
 		display: none;
 	}
 </style>
+<link rel="stylesheet" href="{% static '/css/Select.css'%}" />
+<link rel="stylesheet" href="{% static '/css/Logo.css'%}" />
+<link rel="stylesheet" href="{% static '/css/HererToGo.css'%}" />
+
 <script src="{% static '/js/tts.js' %}"></script>
 <script src="{% static '/js/stt.js' %}"></script>
-<script>
-	document.onmousemove = () => {
-		recognition.start();
-	}
-</script>
-<div class="bubble" id="tts"></div>
-<div class="command"></div>
+<h1 class="Logo_Text">DasanRia</h1>
+<div class="Bubble_Dark" id="tts"></div>
 
-<div class="box" id="box-1">주문 창</div>
-<div class="box hidden" id="box-2">매장/포장</div>
-<div class="box hidden" id="box-3">메뉴 선택</div>
-<div class="box hidden" id="box-4">세트 메뉴</div>
-<div class="box hidden" id="box-5">싱글 메뉴</div>
-<div class="box hidden" id="box-6">사이드 메뉴</div>
-<div class="box hidden" id="box-7">음료 메뉴</div>
-<div class="box hidden" id="box-8">결제</div>
+<div class="Select_Main" id="box-1">
+<div class="Logo_Img">
+		<img src="{% static '/Img/Main_Logo.jpg'%}" />
+	</div>
+</div>
+<div class="Select_Main hidden" id="box-2">
+	<div class="upSide">
+		<div class="Here">
+			<img src="{% static '/Img/ForHere.png'%}" />
+			<h4>매장</h4>
+		</div>
+		<div class="ToGo">
+			<img src="{% static '/Img/ToGo.png'%}" />
+			<h4>포장</h4>
+		</div>
+	</div>
+</div>
+<div class="Select_Main hidden" id="box-3">
+	<div class="upSide">
+		<div>
+			<img src="{% static '/Img/Combo.jpg'%}" />
+			<h4>세트메뉴</h4>
+		</div>
+		<div>
+			<img src="{% static '/Img/Single_Bulgogi.jpg'%}" />
+			<h4>단품메뉴</h4>
+		</div>
+	</div>
+	<div class="DownSide">
+		<div>
+			<img src="{% static '/Img/Side.jpg'%}" />
+			<h4>사이드 메뉴</h4>
+		</div>
+		<div>
+			<img src="{% static '/Img/Drink.jpg'%}" />
+			<h4>음료</h4>
+		</div>
+	</div>
+</div>
+<div class="Select_Main hidden" id="box-4">
+<div class="upSide">
+		<div>
+			<img src="{% static '/Img/Combo_Bulgogi.jpg'%}" />
+			<h4>불고기버거 세트</h4>
+		</div>
+		<div>
+			<img src="{% static '/Img/Combo_Shrimp.jpg'%}" />
+			<h4>새우버거 세트</h4>
+		</div>
+	</div>
+	<div class="DownSide">
+		<div>
+			<img src="{% static '/Img/Combo_Chicken.jpg'%}" />
+			<h4>치킨버거 세트</h4>
+		</div>
+		<div>
+			<img src="{% static '/Img/Combo_Wafer.jpg'%}" />
+			<h4>와퍼 세트</h4>
+		</div>
+	</div>
+</div>
+<div class="Select_Main hidden" id="box-5">
+	<div class="upSide">
+		<div>
+			<img src="{% static '/Img/Single_Bulgogi.jpg'%}" />
+			<h4>불고기버거</h4>
+		</div>
+		<div>
+			<img src="{% static '/Img/Single_Shrimp.jpg'%}" />
+			<h4>새우버거</h4>
+		</div>
+	</div>
+	<div class="DownSide">
+		<div>
+			<img src="{% static '/Img/Single_Chicken.jpg'%}" />
+			<h4>치킨버거</h4>
+		</div>
+		<div>
+			<img src="{% static '/Img/Single_Wafer.jpg'%}" />
+			<h4>와퍼</h4>
+		</div>
+	</div>
+</div>
+<div class="Select_Main hidden" id="box-6">
+	<div class="upSide">
+		<div>
+			<img src="{% static '/Img/Side_FrenchFry.jpg'%}" />
+			<h4>감자튀김</h4>
+		</div>
+		<div>
+			<img src="{% static '/Img/Side.jpg'%}" />
+			<h4>양념감자</h4>
+		</div>
+	</div>
+	<div class="DownSide">
+		<div>
+			<img src="{% static '/Img/Side_Chicken.jpg'%}" />
+			<h4>치킨너겟</h4>
+		</div>
+		<div>
+			<img src="{% static '/Img/Side_Onion.jpg'%}" />
+			<h4>어니언링</h4>
+		</div>
+	</div>
+</div>
+<div class="Select_Main hidden" id="box-7">
+	<div class="upSide">
+		<div>
+			<img src="{% static '/Img/Drink_Coke.jpg'%}" />
+			<h4>콜라</h4>
+		</div>
+		<div>
+			<img src="{% static '/Img/Drink_Sprite.jpg'%}" />
+			<h4>사이다</h4>
+		</div>
+	</div>
+	<div class="DownSide">
+		<div>
+			<img src="{% static '/Img/Drink_Fanta.jpg'%}" />
+			<h4>환타</h4>
+		</div>
+		<div>
+			<img src="{% static '/Img/Drink_Beer.jpg'%}" />
+			<h4>맥주</h4>
+		</div>
+	</div>
+</div>
+<div class="Select_Main hidden" id="box-8">결제</div>
 
 <div>
 	<p class="receipt">
@@ -39,25 +154,27 @@
 		주문 방법: <span id="here-or-to-go"></span>
 		<table>
 			<thead>
-				<th>
-					<td>품명</td>
-					<td>수량</td>
-					<td>가격</td>
-				</th>
+				<th>품명</th>
+				<th>수량</th>
+				<th>가격</th>
 			</thead>
 			<tbody class="items">
 			</tbody>
 			<tfoot>
-				<th>
-					<td></td>
-					<td></td>
-					<td id="total-price"></td>
-				</th>
+				<td></td>
+				<td></td>
+				<td id="total-price"></td>
 			</tfoot>
 		</table>
 	</p>
 </div>
-<div class="bubble" id="stt"></div>
+<div class="Bubble_light" id="stt"></div>
 <p class="recording">recording</p>
 <p class="loading">loading</p>
+<script>
+	printAndSpeech(kioskScenario[screen][0]);
+	document.onmousemove = () => {
+		recognition.start();
+	}
+</script>
 	

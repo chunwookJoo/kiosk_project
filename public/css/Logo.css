@@ -1,22 +1,20 @@
 @import "./HererToGo.css";
 @import "./Select.css";
 
-.Logo_Main,
-.FtG_Main,
 .Select_Main {
 	text-align: center;
 	margin: 0 8rem;
 }
 
 .Logo_Text {
-	margin-top: 5rem;
-	margin-bottom: 5rem;
+	font-size: 60px;
+	text-align: center;
 }
 
 .Bubble_Dark {
 	position: relative;
 	padding: 2rem 3rem;
-	margin: 4rem 0 2rem 0;
+	margin: 4rem 6rem 0 6rem;
 	background-color: #7cde77;
 	color: white;
 	border-radius: 7px;
@@ -30,8 +28,8 @@
 
 .Bubble_light {
 	position: relative;
-	padding: 1rem 0;
-	margin: 0 4rem;
+	padding: 2rem;
+	margin: 0 12rem;
 	color: white;
 	background-color: #7cde77;
 	border-radius: 7px;
