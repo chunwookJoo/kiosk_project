@@ -57,7 +57,7 @@ recognition.interimResults = true;
 
 // 작을수록 발음에 근접한 결과, 클수록 문장에 적합한 단어로 대체한 결과
 // maxAlternatives가 크면 이상한 단어도 문장에 적합하게 알아서 수정합니다.
-recognition.maxAlternatives = 10;
+recognition.maxAlternatives = 0;
 
 ws = "<strong>";
 we = "</strong>";
@@ -72,7 +72,7 @@ kioskScenario = [
 	["감자 튀김", "양념 감자", "치킨 너겟", "어니언 링"],
 	["콜라", "사이다", "환타", "맥주"],
 	[`주문 내용이 맞으시면 ${ws}결제${we}라고 말씀해주세요.`, "결제하시려면 IC 카드를 방향에 맞게 꽂아주세요.", "이용해주셔서 감사합니다."],
-	[" 중에서 원하시는 걸 말씀해주세요.", `${ws}와퍼 하나${we}와 같이 메뉴와 수량을 말씀해주세요.`, `결제하시려면 ${ws}결제${we}라고 말씀해주세요.`,],
+	[`와 같이 메뉴와 수량을 말씀해주세요.`, `결제하시려면 ${ws}결제${we}, 메뉴 이동을 원하시면 `, " 중에서 말씀해주세요.", " 중에서 원하시는 메뉴를 말씀해주세요."],
 ];
 
 let movePage = false;
@@ -155,34 +155,30 @@ recognition.onend = async () => {
 			totalPrice = 0;
 			price[0].forEach((val, index) => {
 				let tmpName = val.replaceAll(" ", "");
-				console.log(tmpName);
 				if (cart[tmpName] != 0) {
 					let tmpPrice = price[1][price[0].indexOf(val)]*cart[tmpName];
-					let tmpString = `<td>${price[0][index]}</td><td>${cart[tmpName]}</td><td>${tmpPrice}</td>`;
+					let tmpString = `<tr><td class="product-name">${price[0][index]}</td><td class="product-qty">${cart[tmpName]}</td><td class="product-price">${tmpPrice}</td><tr>`;
 					totalPrice += tmpPrice
 					document.querySelector(".items").innerHTML += tmpString;
 					document.getElementById("total-price").innerHTML = totalPrice;
 				}
 			});
-			speech(kioskScenario[9][2]);
+			tmpText = kioskScenario[9][1] + "원하시는 메뉴를 말씀해주세요.";
+			speech(tmpText);
 			break;
 		default:
 			screen = menuResult;
 			switch (screen) {
 			case 1:
-				showBox();
 				totalPrice = 0;
 				cartEmpty = true;
 				hotgConfirm = false;
-				orderConfirm = false;
 				hotg.innerHTML = "";
 				price[0].forEach((val) => {
-					cart[val] = 0;
+					cart[val.replaceAll(" ", "")] = 0;
 				})
 				document.querySelector(".items").innerHTML = "";
 				document.getElementById("total-price").innerHTML = "";
-				printAndSpeech(kioskScenario[screen][0]);
-				break;
 			case 2:
 				showBox();
 				orderConfirm = false;
@@ -202,7 +198,7 @@ recognition.onend = async () => {
 				}
 				if (!cartEmpty) printAndSpeech(kioskScenario[screen][0]);
 				else {
-					tmpText = "<strong>" + kioskScenario[screen].join("</strong>, <strong>") + "</strong>" + kioskScenario[9][0];
+					tmpText = "<strong>" + kioskScenario[screen].join("</strong>, <strong>") + "</strong>" + kioskScenario[9][3];
 					printAndSpeech(tmpText);
 				}
 				break;
@@ -212,9 +208,9 @@ recognition.onend = async () => {
 			case 7:
 				showBox();
 				orderConfirm = false;
-				tmpText = "<strong>" + kioskScenario[screen].join("</strong>, <strong>") + "</strong>" + kioskScenario[9].join(" <br>");
+				tmpText = "<strong>" + kioskScenario[screen][3] + " 하나</strong>" + kioskScenario[9][0] + "<br>" + kioskScenario[9][1] + "<strong>" + kioskScenario[3].join("</strong>, <strong>") + "</strong>" + kioskScenario[9][2];
 				document.getElementById("tts").innerHTML = tmpText;
-				tmpText = "<strong>" + kioskScenario[screen].join("</strong>, <strong>") + "</strong>" + kioskScenario[9][0];
+				tmpText = "<strong>" + kioskScenario[screen][3] + " 하나</strong>" + kioskScenario[9][0];
 				speech(tmpText);
 				break;
 			case 8:
@@ -242,7 +238,7 @@ recognition.onend = async () => {
 				}
 			}
 		}
-	}).then(msg => {console.log(msg)});
+	});
 	setTimeout(()=>{speechToText = "";}, 1000);
 };
 

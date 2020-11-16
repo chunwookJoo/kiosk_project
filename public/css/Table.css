@@ -1,0 +1,67 @@
+.receipt {
+	margin-top: 40px;
+	margin-left: 30px;
+	margin-right: 30px;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+}
+table {
+	margin-top: 10px;
+	border-spacing: 0;
+	border-radius: 7px;
+	border: 1px solid #cccccc;
+}
+th,
+td {
+	border: 1px solid #cccccc;
+}
+.table-name {
+	width: 400px;
+	text-align: center;
+	font-size: large;
+}
+
+.table-qty {
+	width: 200px;
+	text-align: center;
+	font-size: large;
+}
+
+.table-price {
+	width: 200px;
+	text-align: center;
+	font-size: large;
+}
+
+#order-id {
+	padding-right: 20px;
+}
+
+#here-or-to-go {
+	padding-left: 20px;
+}
+
+.receipt-info {
+	text-align: start;
+}
+
+.recording {
+	text-align: center;
+	padding-bottom: 10px;
+}
+
+.recording > img {
+	width: 50px;
+	height: 50px;
+}
+
+.loading {
+	text-align: center;
+	padding-bottom: 10px;
+}
+
+.loading > img {
+	width: 50px;
+	height: 50px;
+}

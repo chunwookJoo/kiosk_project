@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko-KR">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="{% static '/css/Motion.css'%}" />
+		<title>Motion</title>
+		<script src="{% static '/js/motion.js' %}"></script>
+	</head>
+	<body class="cover">
+		<h1 class="logo">DasanRia</h1>
+		<div class="main">
+			<img class="arrow" id="arrow-left" src="{% static '/Img/arrow-left.png'%} " />
+			<div class="menu-scroll">
+				<img class="arrow" id="arrow-up"  src="{% static '/Img/arrow-up.png'%} " />
+				<div class="menu-center">
+					<div id="side-blank"></div>
+					<div class="menu-list">
+						<div class="item-box" id="item-0">
+							<img class="item-image" src="{% static '/Img/Drink_Coke.jpg'%}" />
+							<h4>콜라</h4>
+						</div>
+						<div class="item-box" id="item-1">
+							<img class="item-image" src="{% static '/Img/Drink_Sprite.jpg'%}" />
+							<h4>사이다</h4>
+						</div>
+						<div class="item-box" id="item-2">
+							<img class="item-image" src="{% static '/Img/Drink_Fanta.jpg'%}" />
+							<h4>환타</h4>
+						</div>
+						<div class="item-box" id="item-3">
+							<img class="item-image" src="{% static '/Img/Drink_Beer.jpg'%}" />
+							<h4>맥주</h4>
+						</div>
+					</div>
+					<div class="dot-indicator">:</div>
+				</div>
+				<img class="arrow" id="arrow-down"  src="{% static '/Img/arrow-down.png'%}" />
+			</div>
+			<img class="arrow" id="arrow-right" src="{% static '/Img/arrow-right.png'%} ">
+		</div>
+		<progress class="progress" value="1" max="7"></progress>
+	</body>
+</html>

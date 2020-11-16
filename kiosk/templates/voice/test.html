@@ -1,0 +1,197 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Voice</title>
+		<style>
+			.hidden {
+				display: none;
+			}
+		</style>
+		<link rel="stylesheet" href="{% static '/css/Table.css'%}" />
+		<link rel="stylesheet" href="{% static '/css/Select.css'%}" />
+		<link rel="stylesheet" href="{% static '/css/Logo.css'%}" />
+		<link rel="stylesheet" href="{% static '/css/HererToGo.css'%}" />
+		<link rel="stylesheet" href="{% static '/css/Check.css'%}" />
+		<script src="{% static '/js/tts.js' %}"></script>
+		<script src="{% static '/js/stt.js' %}"></script>
+	</head>
+	<body>
+		<h1 class="Logo_Text">DasanRia</h1>
+		<div class="Bubble_Dark" id="tts"></div>
+
+		<div class="Select_Main" id="box-1">
+			<div class="Logo_Img">
+				<img src="{% static '/Img/Main_Logo.jpg'%}" class="Logo" />
+			</div>
+		</div>
+		<div class="Select_Main hidden" id="box-2">
+			<div class="hereup">
+				<div class="Here">
+					<img
+						src="{% static '/Img/ForHere.png'%}"
+						class="HereImgText"
+					/>
+					<h4>매장</h4>
+				</div>
+				<div class="ToGo">
+					<img
+						src="{% static '/Img/ToGo.png'%}"
+						class="HereImgText"
+					/>
+					<h4>포장</h4>
+				</div>
+			</div>
+		</div>
+		<div class="Select_Main hidden" id="box-3">
+			<div class="upSide">
+				<div>
+					<img src="{% static '/Img/Combo.jpg'%}" />
+					<h4>세트 메뉴</h4>
+				</div>
+				<div>
+					<img src="{% static '/Img/Single_Bulgogi.jpg'%}" />
+					<h4>싱글 메뉴</h4>
+				</div>
+			</div>
+			<div class="DownSide">
+				<div>
+					<img src="{% static '/Img/Side.jpg'%}" />
+					<h4>사이드 메뉴</h4>
+				</div>
+				<div>
+					<img src="{% static '/Img/Drink.jpg'%}" />
+					<h4>음료</h4>
+				</div>
+			</div>
+		</div>
+		<div class="Select_Main hidden" id="box-4">
+			<div class="upSide">
+				<div>
+					<img src="{% static '/Img/Combo_Bulgogi.jpg'%}" />
+					<h4>불고기버거 세트</h4>
+				</div>
+				<div>
+					<img src="{% static '/Img/Combo_Shrimp.jpg'%}" />
+					<h4>새우버거 세트</h4>
+				</div>
+			</div>
+			<div class="DownSide">
+				<div>
+					<img src="{% static '/Img/Combo_Chicken.jpg'%}" />
+					<h4>치킨버거 세트</h4>
+				</div>
+				<div>
+					<img src="{% static '/Img/Combo_Wafer.jpg'%}" />
+					<h4>와퍼 세트</h4>
+				</div>
+			</div>
+		</div>
+		<div class="Select_Main hidden" id="box-5">
+			<div class="upSide">
+				<div>
+					<img src="{% static '/Img/Single_Bulgogi.jpg'%}" />
+					<h4>불고기 버거</h4>
+				</div>
+				<div>
+					<img src="{% static '/Img/Single_Shrimp.jpg'%}" />
+					<h4>새우 버거</h4>
+				</div>
+			</div>
+			<div class="DownSide">
+				<div>
+					<img src="{% static '/Img/Single_Chicken.jpg'%}" />
+					<h4>치킨 버거</h4>
+				</div>
+				<div>
+					<img src="{% static '/Img/Single_Wafer.jpg'%}" />
+					<h4>와퍼</h4>
+				</div>
+			</div>
+		</div>
+		<div class="Select_Main hidden" id="box-6">
+			<div class="upSide">
+				<div>
+					<img src="{% static '/Img/Side_FrenchFry.jpg'%}" />
+					<h4>감자튀김</h4>
+				</div>
+				<div>
+					<img src="{% static '/Img/Side.jpg'%}" />
+					<h4>양념감자</h4>
+				</div>
+			</div>
+			<div class="DownSide">
+				<div>
+					<img src="{% static '/Img/Side_Chicken.jpg'%}" />
+					<h4>치킨너겟</h4>
+				</div>
+				<div>
+					<img src="{% static '/Img/Side_Onion.jpg'%}" />
+					<h4>어니언 링</h4>
+				</div>
+			</div>
+		</div>
+		<div class="Select_Main hidden" id="box-7">
+			<div class="upSide">
+				<div>
+					<img src="{% static '/Img/Drink_Coke.jpg'%}" />
+					<h4>콜라</h4>
+				</div>
+				<div>
+					<img src="{% static '/Img/Drink_Sprite.jpg'%}" />
+					<h4>사이다</h4>
+				</div>
+			</div>
+			<div class="DownSide">
+				<div>
+					<img src="{% static '/Img/Drink_Fanta.jpg'%}" />
+					<h4>환타</h4>
+				</div>
+				<div>
+					<img src="{% static '/Img/Drink_Beer.jpg'%}" />
+					<h4>맥주</h4>
+				</div>
+			</div>
+		</div>
+		<div class="Select_Main hidden" id="box-8">
+			<div class="checkSide">
+				<img src="{% static '/Img/check.jpg'%}" />
+			</div>
+		</div>
+		<div class="recording hidden">
+			<img src="{% static '/Img/mic_on.jpg'%}" />
+		</div>
+		<div class="loading"><img src="{% static '/Img/mic_off.jpg'%}" /></div>
+		<div class="Bubble_light" id="stt"></div>
+		<div class="receipt">
+			<div class="receipt-info">
+				주문 번호 <span id="order-id">{{ order_id }}</span>
+				<span id="here-or-to-go">매장 OR 포장 </span>
+			</div>
+			<table>
+				<thead>
+					<tr>
+						<th class="table-name">품 &nbsp;&nbsp; 명</th>
+						<th class="table-qty">수 &nbsp;&nbsp; 량</th>
+						<th class="table-price">가 &nbsp;&nbsp; 격</th>
+					</tr>
+				</thead>
+				<tbody class="items"></tbody>
+				<tfoot>
+					<th>결제 금액</th>
+					<th></th>
+					<th id="total-price"></th>
+				</tfoot>
+			</table>
+		</div>
+
+		<script>
+			document.getElementById("tts").innerHTML = kioskScenario[screen][0];
+			document.onmousemove = () => {
+				recognition.start();
+			};
+		</script>
+	</body>
+</html>

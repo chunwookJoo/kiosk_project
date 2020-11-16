@@ -1,0 +1,90 @@
+h4 {
+	margin: 0;
+}
+
+.cover {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.logo {
+	font-size: 60px;
+	text-align: center;
+	margin: 5rem 0;
+}
+
+.main {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.menu-scroll {
+	width: 70%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.menu-center {
+	width: 100%;
+	display: flex;
+	align-items: center;
+}
+
+.menu-list {
+	flex-grow: 8;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.dot-indicator,
+#side-blank {
+	flex-grow: 1;
+}
+
+.item-box {
+	margin: 10px;
+	border: 1px solid #dddddd;
+	border-radius: 20px;
+	padding: 20px;
+	background: #ffffff;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.hidden {
+	display: none;
+}
+
+.item-box-shade {
+	position: relative;
+	z-index: -1;
+	opacity: 0.8;
+}
+
+.item-up {
+	bottom: -200px;
+}
+
+.item-down {
+	top: -200px;
+}
+
+.item-image {
+	width: auto;
+	height: 300px;
+}
+
+.arrow {
+	width: 100px;
+	height: 100px;
+}
+
+.progress {
+	align-self: center;
+}

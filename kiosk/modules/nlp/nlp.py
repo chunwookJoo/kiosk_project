@@ -32,8 +32,8 @@ def check_new_text(text):
 
 
 def rndModel(new_sentence):
-    stopwords = ['의', '로', '가', '이', '은', '들', '는', '좀', '잘', '걍', '과',
-                 '도', '를', '으로', '자', '에', '와', '한', '하다', '저기요', '주세요', '할게요']
+    stopwords = ['보이다', '줄다', '이요', '요', '의', '로', '가', '이', '은', '들', '는', '좀',
+                 '잘', '걍', '과', '도', '를', '으로', '자', '에', '와', '한', '하다', '저기요', '주세요', '할게요', '하세요']
     # global order_data
     text = new_sentence
     new_sentence = spacing_okt(new_sentence)

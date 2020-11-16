@@ -18,36 +18,12 @@ def nlp(request, text):
 
 
 def test(request, order_id):
-    return render(request, 'html/test.html', {'order_id': order_id})
+    return render(request, 'voice/test.html', {'order_id': order_id})
 
 
-def index(request):
-    return render(request, 'html/Logo.html')
+def voice(request, order_id):
+    return render(request, 'voice/test.html', {'order_id': order_id})
 
 
-def heretogo(request):
-    return render(request, 'html/HereToGo.html')
-
-
-def select_menu(request):
-    return render(request, 'html/Select_Menu.html')
-
-
-def menu_single(request):
-    return render(request, 'html/Menu_Single.html')
-
-
-def menu_combo(request):
-    return render(request, 'html/Menu_Combo.html')
-
-
-def menu_side(request):
-    return render(request, 'html/Menu_Side.html')
-
-
-def menu_drink(request):
-    return render(request, 'html/Menu_Drink.html')
-
-
-def payment(request):
-    return render(request, 'html/Payment.html')
+def motion(request, order_id):
+    return render(request, 'motion/test.html', {'order_id': order_id})

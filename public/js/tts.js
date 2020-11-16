@@ -19,7 +19,7 @@ let utterThis = new SpeechSynthesisUtterance();
 
 utterThis.onend = function(event) {
 	if (movePage) location.href = `/test/${Number(document.getElementById("order-id").innerHTML) + 1}`;
-	if (completed) {
+	else if (completed) {
 		movePage = true;
 		printAndSpeech(kioskScenario[8][2]);
 	}
@@ -28,17 +28,18 @@ utterThis.onend = function(event) {
 
 utterThis.onerror = function(event) {
 	if (movePage) location.href = `/test/${Number(document.getElementById("order-id").innerHTML) + 1}`;
-	if (completed) {
+	else if (completed) {
 		movePage = true;
 		printAndSpeech(kioskScenario[8][2]);
 	}
-	console.log(event);
+	else {
+		recognition.start();
+		console.log(event);
+	}
 };
 
 utterThis.voice = kor_voices[1];
 utterThis.lang = lang;
-
-
 
 function speech(text) {
 	if (utterThis.voice == null) {
@@ -51,7 +52,7 @@ function speech(text) {
 			utterThis.rate = 1.6; //속도
 		}
 	}
-	utterThis.text = text.replaceAll("<strong>", "").replaceAll("</strong>", "");
+	utterThis.text = text.replaceAll("<strong>", "").replaceAll("</strong>", "").replaceAll("<br>", "");
 	if(!window.speechSynthesis) {
 		console.log("음성 재생 미지원");
 		return;
