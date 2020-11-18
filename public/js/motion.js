@@ -1,36 +1,15 @@
 let progress = 0;
-let firstIndex = 0;
-let itemLength = 4;
-let prevItem;
-let focusedItem;
-let nextItem;
+let itemsInMenu = [2,4,4,4,4];
+let menuIndex = 0;
+let itemIndex = 0;
 
-function setFocus(index) {
-	document.querySelectorAll(".item-box").forEach((tag) => {
-			tag.classList.add("hidden");
-			tag.classList.remove("item-box-shade");
-			tag.classList.id = "";
-		}
-	)
-	document.getElementById(`item-${index}`).classList.remove("hidden");
-	if (index == firstIndex) {
-		document.getElementById(`item-${index+1}`).classList.remove("hidden");
-		document.getElementById(`item-${index+1}`).classList.add("item-box-shade");
-		document.getElementById(`item-${index+1}`).classList.add("item-down");
 
-	}
-	else if (index == itemLength - 1) {
-		document.getElementById(`item-${index-1}`).classList.remove("hidden");
-		document.getElementById(`item-${index-1}`).classList.add("item-box-shade");
-		document.getElementById(`item-${index-1}`).classList.add("item-up");
-	}
-	else {
-		document.getElementById(`item-${index-1}`).classList.remove("hidden");
-		document.getElementById(`item-${index-1}`).classList.add("item-box-shade");
-		document.getElementById(`item-${index-1}`).classList.add("item-up");
-		document.getElementById(`item-${index+1}`).classList.remove("hidden");
-		document.getElementById(`item-${index+1}`).classList.add("item-box-shade");
-		document.getElementById(`item-${index+1}`).classList.add("item-down");
-	}
+function setFocus(menu, item) {
+	let menuSlider = document.querySelector(`.menu-page>div`);
+	let menuX = -menu * 450;
+	let itemSlider = document.querySelector(`#menu-${menu}>div`);
+	let itemY = 240 - item * 270;
+	menuSlider.style.transform = `translate(${menuX}px,0)`;
+	itemSlider.style.transform = `translate(0,${itemY}px)`;
 }
 

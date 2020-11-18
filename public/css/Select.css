@@ -1,14 +1,14 @@
 .Select_Main {
 	text-align: center;
 	margin: 0 20rem;
-	height: 650px;
+	height: 600px;
 }
 
 .Bubble_Dark {
 	position: relative;
 	padding: 2rem 3rem;
 	height: 75px;
-	margin: 4rem 6rem 0 6rem;
+	margin: 0 6rem 0 6rem;
 	background-color: #7cde77;
 	color: white;
 	border-radius: 7px;

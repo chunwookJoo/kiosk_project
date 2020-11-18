@@ -160,27 +160,7 @@
 				<img src="{% static '/Img/check.jpg'%}" />
 			</div>
 		</div>
-		<div class="recording hidden">
-			<img src="{% static '/Img/mic_on.jpg'%}" />
-		</div>
-		<div class="loading"><img src="{% static '/Img/mic_off.jpg'%}" /></div>
-		<div class="Bubble_light" id="stt"></div>
-		<div class="receipt">
-			<div class="receipt-info">
-				주문 번호 <span id="order-id">{{ order_id }}</span>
-				<span id="here-or-to-go">매장 OR 포장 </span>
-			</div>
-			<table>
-				<thead>
-					<tr>
-						<th class="table-name">품 &nbsp;&nbsp; 명</th>
-						<th class="table-qty">수 &nbsp;&nbsp; 량</th>
-						<th class="table-price">가 &nbsp;&nbsp; 격</th>
-					</tr>
-				</thead>
-				<tbody class="items"></tbody>
-				<tfoot>
-					<th>결제 금액</th>
+		<div class="recording hidden"><img src="{% static '/Img/mic_on.jpg'%}" /></div>
 					<th></th>
 					<th id="total-price"></th>
 				</tfoot>
