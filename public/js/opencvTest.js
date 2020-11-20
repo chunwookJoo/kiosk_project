@@ -208,34 +208,35 @@ function process() {
     	switch(MoevControl){
         case 0: 
         	testText.innerHTML = "Check";
-			TimeChek =Date.now();
+			TimeChek = Date.now();
+			getItem(menuIndex, itemIndex);
             break;
         case 1: 
             break;
         case 2: 
             testText.innerHTML = "Right";
             select = true;
-			TimeChek =Date.now();
+			TimeChek = Date.now();
 			if (menuIndex > 0) menuIndex--;
-			itemIndex = 1;
+			itemIndex = Math.floor(itemsInMenu[menuIndex] / 2);
 			break;
 		case 3: 
             testText.innerHTML = "Left";
             select = true;
-            TimeChek =Date.now();
-			if (menuIndex < 4) menuIndex++;
-			itemIndex = 1;
+            TimeChek = Date.now();
+			if (menuIndex < itemsInMenu.length - 1) menuIndex++;
+			itemIndex = (itemIndex < itemsInMenu[menuIndex] - 1)?(itemIndex):(itemsInMenu[menuIndex] - 1);
 			break;
 		case 4: 
             testText.innerHTML = "Up";
             select = true;
-			TimeChek =Date.now();
-			if (itemIndex < itemsInMenu[menuIndex]) itemIndex++;
+			TimeChek = Date.now();
+			if (itemIndex < itemsInMenu[menuIndex] - 1) itemIndex++;
             break;
 		case 5: 
             testText.innerHTML = "Down";
             select = true;
-            TimeChek =Date.now();
+            TimeChek = Date.now();
 			if (itemIndex > 0) itemIndex--;
 			break;
 		}

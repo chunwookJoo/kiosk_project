@@ -2,10 +2,6 @@ h4 {
 	margin: 0;
 }
 
-.hidden {
-	display: none;
-}
-
 .cover {
 	display: flex;
 	flex-direction: column;
@@ -15,7 +11,7 @@ h4 {
 .logo {
 	font-size: 60px;
 	text-align: center;
-	margin: 5rem 0;
+	margin: 30px 0;
 }
 
 .main {
@@ -46,7 +42,7 @@ h4 {
 }
 
 .menu-page > div {
-	width: 2250px;
+	width: 3600px;
 	display: flex;
 	flex-direction: row;
 	align-items: center;
@@ -56,7 +52,7 @@ h4 {
 .menu-list {
 	margin: 50px 0;
 	width: 450px;
-	height: 750px;
+	height: 540px;
 	overflow: hidden;
 }
 
@@ -84,14 +80,6 @@ h4 {
 	height: 199px;
 }
 
-@keyframes item-slide-up {
-	from {
-	}
-
-	to {
-	}
-}
-
 .arrow {
 	width: 100px;
 	height: 100px;
@@ -101,4 +89,12 @@ h4 {
 	width: 300px;
 	height: 30px;
 	margin: 3rem 0;
+}
+
+.focused {
+	background-color: rgba(238, 178, 99, 0.247);
+}
+
+.hidden {
+	display: none;
 }

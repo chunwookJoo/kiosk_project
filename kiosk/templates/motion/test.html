@@ -5,29 +5,30 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="stylesheet" href="{% static '/css/Motion.css'%}" />
+		<link rel="stylesheet" href="{% static '/css/Table.css'%}" />
 		<title>Motion</title>
 		<script src="{% static '/js/motion.js' %}"></script>
-		<script async src="https://docs.opencv.org/3.4/opencv.js"></script>
+		<script async src="{% static '/js/opencv.js' %}"></script>
 	</head>
 	<body class="cover" onload="setSize()">
-		<h1 id="testText"></h1>
+		<h1 class="hidden" id="testText"></h1>
 		<h1 class="hidden" id="testText2"></h1>
 		<button id="toggleStream" onclick="OpenCv()">Play</button>
 		<video class="hidden" id="video" style="display: none"></video>
-		<canvas id="output"></canvas>
-		
+		<canvas class="hidden" id="output"></canvas>
+
 		<h1 class="logo">DasanRia</h1>
 		<div class="main">
 			<img
-			class="arrow"
-			id="arrow-left"
-			src="{% static '/Img/arrow-left.png'%} "
+				class="arrow"
+				id="arrow-left"
+				src="{% static '/Img/arrow-left.png'%} "
 			/>
 			<div class="menu-scroll">
 				<img
-				class="arrow"
-				id="arrow-up"
-				src="{% static '/Img/arrow-up.png'%} "
+					class="arrow"
+					id="arrow-up"
+					src="{% static '/Img/arrow-up.png'%} "
 				/>
 				<div class="menu-center">
 					<div id="side-blank"></div>
@@ -37,17 +38,14 @@
 								<div>
 									<div class="item-box" id="item-0">
 										<img
-										class="item-image"
-										src="/static/Img/ForHere.png"
+											class="item-image"
+											src="/static/Img/Main_Logo.jpg"
 										/>
-										<h4>매장</h4>
-									</div>
-									<div class="item-box" id="item-1">
-										<img
-										class="item-image"
-										src="/static/Img/ToGo.png"
-										/>
-										<h4>포장</h4>
+										<h4>
+											안녕하세요. 다산리아입니다.<br />
+											왼쪽으로 손을 흔들어 메뉴를
+											확인하세요.
+										</h4>
 									</div>
 								</div>
 							</div>
@@ -55,127 +53,164 @@
 								<div>
 									<div class="item-box" id="item-0">
 										<img
-										class="item-image"
+											class="item-image"
 											src="/static/Img/Combo_Bulgogi.jpg"
-											/>
-											<h4>불고기버거 세트</h4>
-										</div>
-										<div class="item-box" id="item-1">
-											<img
+										/>
+										<h4>불고기버거 세트</h4>
+									</div>
+									<div class="item-box" id="item-1">
+										<img
 											class="item-image"
 											src="/static/Img/Combo_Shrimp.jpg"
-											/>
-											<h4>새우버거 세트</h4>
-										</div>
-										<div class="item-box" id="item-2">
-											<img
+										/>
+										<h4>새우버거 세트</h4>
+									</div>
+									<div class="item-box" id="item-2">
+										<img
 											class="item-image"
 											src="/static/Img/Combo_Chicken.jpg"
-											/>
-											<h4>치킨버거 세트</h4>
-										</div>
-										<div class="item-box" id="item-3">
-											<img
+										/>
+										<h4>치킨버거 세트</h4>
+									</div>
+									<div class="item-box" id="item-3">
+										<img
 											class="item-image"
 											src="/static/Img/Combo_Wafer.jpg"
-											/>
-											<h4>와퍼 세트</h4>
-										</div>
+										/>
+										<h4>와퍼 세트</h4>
 									</div>
 								</div>
-								<div class="menu-list" id="menu-2">
-									<div>
-										<div class="item-box" id="item-0">
-											<img
+							</div>
+							<div class="menu-list" id="menu-2">
+								<div>
+									<div class="item-box" id="item-0">
+										<img
 											class="item-image"
 											src="/static/Img/Single_Bulgogi.jpg"
-											/>
-											<h4>불고기 버거</h4>
-										</div>
-										<div class="item-box" id="item-1">
-											<img
+										/>
+										<h4>불고기 버거</h4>
+									</div>
+									<div class="item-box" id="item-1">
+										<img
 											class="item-image"
 											src="/static/Img/Single_Shrimp.jpg"
-											/>
-											<h4>새우 버거</h4>
-										</div>
-										<div class="item-box" id="item-2">
-											<img
+										/>
+										<h4>새우 버거</h4>
+									</div>
+									<div class="item-box" id="item-2">
+										<img
 											class="item-image"
 											src="/static/Img/Single_Chicken.jpg"
-											/>
-											<h4>치킨 버거</h4>
-										</div>
-										<div class="item-box" id="item-3">
-											<img
+										/>
+										<h4>치킨 버거</h4>
+									</div>
+									<div class="item-box" id="item-3">
+										<img
 											class="item-image"
 											src="/static/Img/Single_Wafer.jpg"
-											/>
-											<h4>와퍼</h4>
-										</div>
+										/>
+										<h4>와퍼</h4>
 									</div>
 								</div>
-								<div class="menu-list" id="menu-3">
-									<div>
-										<div class="item-box" id="item-0">
-											<img
+							</div>
+							<div class="menu-list" id="menu-3">
+								<div>
+									<div class="item-box" id="item-0">
+										<img
 											class="item-image"
 											src="/static/Img/Side_FrenchFry.jpg"
-											/>
-											<h4>감자튀김</h4>
-										</div>
-										<div class="item-box" id="item-1">
-											<img
+										/>
+										<h4>감자튀김</h4>
+									</div>
+									<div class="item-box" id="item-1">
+										<img
 											class="item-image"
 											src="/static/Img/Side.jpg"
-											/>
-											<h4>양념감자</h4>
-										</div>
-										<div class="item-box" id="item-2">
-											<img
+										/>
+										<h4>양념감자</h4>
+									</div>
+									<div class="item-box" id="item-2">
+										<img
 											class="item-image"
 											src="/static/Img/Side_Chicken.jpg"
-											/>
-											<h4>치킨너겟</h4>
+										/>
+										<h4>치킨너겟</h4>
 									</div>
 									<div class="item-box" id="item-3">
 										<img
 											class="item-image"
 											src="/static/Img/Side_Onion.jpg"
-											/>
-											<h4>어니언 링</h4>
-										</div>
+										/>
+										<h4>어니언 링</h4>
 									</div>
 								</div>
+							</div>
 							<div class="menu-list" id="menu-4">
 								<div>
 									<div class="item-box" id="item-0">
 										<img
-										class="item-image"
-										src="/static/Img/Drink_Coke.jpg"
+											class="item-image"
+											src="/static/Img/Drink_Coke.jpg"
 										/>
 										<h4>콜라</h4>
 									</div>
 									<div class="item-box" id="item-1">
 										<img
-										class="item-image"
-										src="/static/Img/Drink_Sprite.jpg"
+											class="item-image"
+											src="/static/Img/Drink_Sprite.jpg"
 										/>
 										<h4>사이다</h4>
 									</div>
 									<div class="item-box" id="item-2">
 										<img
-										class="item-image"
-										src="/static/Img/Drink_Fanta.jpg"
+											class="item-image"
+											src="/static/Img/Drink_Fanta.jpg"
 										/>
 										<h4>환타</h4>
 									</div>
 									<div class="item-box" id="item-3">
 										<img
-										class="item-image"
-										src="/static/Img/Drink_Beer.jpg"
+											class="item-image"
+											src="/static/Img/Drink_Beer.jpg"
 										/>
 										<h4>맥주</h4>
+									</div>
+								</div>
+							</div>
+							<div class="menu-list" id="menu-5">
+								<div>
+									<div class="item-box" id="item-0">
+										<img
+											class="item-image"
+											src="/static/Img/ForHere.png"
+										/>
+										<h4>매장</h4>
+									</div>
+									<div class="item-box" id="item-1">
+										<img
+											class="item-image"
+											src="/static/Img/ToGo.png"
+										/>
+										<h4>포장</h4>
+									</div>
+								</div>
+							</div>
+							<div class="menu-list" id="menu-6">
+								<div>
+									<div class="item-box" id="item-0">
+										<img class="item-image" src="" />
+										<h4>주문 내역이 없습니다.</h4>
+									</div>
+								</div>
+							</div>
+							<div class="menu-list" id="menu-7">
+								<div>
+									<div class="item-box" id="item-0">
+										<img
+											class="item-image"
+											src="/static/Img/check.jpg"
+										/>
+										<h4>주문 사항이 맞으시면 확인.</h4>
 									</div>
 								</div>
 							</div>
@@ -184,21 +219,42 @@
 					<div class="dot-indicator">:</div>
 				</div>
 				<img
-				class="arrow"
-				id="arrow-down"
-				src="{% static '/Img/arrow-down.png'%}"
+					class="arrow"
+					id="arrow-down"
+					src="{% static '/Img/arrow-down.png'%}"
 				/>
 			</div>
 			<img
-			class="arrow"
-			id="arrow-right"
-			src="{% static '/Img/arrow-right.png'%} "
+				class="arrow"
+				id="arrow-right"
+				src="{% static '/Img/arrow-right.png'%} "
 			/>
 		</div>
-		<progress class="progress" value="1" max="7"></progress>
+		<progress class="progress" value="0" max="7"></progress>
+		<div class="receipt">
+			<div class="receipt-info">
+				주문 번호 <span id="order-id">{{ order_id }}</span>
+				<span id="here-or-to-go">매장 OR 포장 </span>
+			</div>
+			<table>
+				<thead>
+					<tr>
+						<th class="table-name">품 &nbsp;&nbsp; 명</th>
+						<th class="table-qty">수 &nbsp;&nbsp; 량</th>
+						<th class="table-price">가 &nbsp;&nbsp; 격</th>
+					</tr>
+				</thead>
+				<tbody class="items"></tbody>
+				<tfoot>
+					<th>결제 금액</th>
+					<th></th>
+					<th id="total-price"></th>
+				</tfoot>
+			</table>
+		</div>
 		<script src="{% static '/js/opencvTest.js' %}"></script>
 		<script>
-			setFocus(0,0);
+			setFocus(0, 0);
 		</script>
 	</body>
 </html>
