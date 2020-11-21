@@ -18,7 +18,27 @@ if (speechSynthesis.onvoiceschanged !== undefined) {
 let utterThis = new SpeechSynthesisUtterance();
 
 utterThis.onend = function(event) {
-	if (movePage) location.href = `/test/${Number(document.getElementById("order-id").innerHTML) + 1}`;
+	if (movePage) {
+		screen = 1;
+		totalPrice = 0;
+		movePage = false;
+		orderConfirm = false;
+		hotgConfirm = false;
+		completed = false;
+		cartEmpty = true;
+
+		price[0].forEach((val) => {
+			cart[val.replaceAll(" ", "")] = 0;
+		})
+		document.querySelector("#here-or-to-go").innerHTML = "";
+		document.querySelector(".items").innerHTML = "";
+		document.getElementById("total-price").innerHTML = "";
+		document.getElementById("order-id").innerHTML = ++orderNum;
+
+		showBox();
+		orderConfirm = false;
+		printAndSpeech(kioskScenario[screen][0]);
+	}
 	else if (completed) {
 		movePage = true;
 		printAndSpeech(kioskScenario[8][2]);
@@ -27,7 +47,7 @@ utterThis.onend = function(event) {
 };
 
 utterThis.onerror = function(event) {
-	if (movePage) location.href = `/test/${Number(document.getElementById("order-id").innerHTML) + 1}`;
+	if (movePage) location.href = `/voice/${Number(document.getElementById("order-id").innerHTML) + 1}`;
 	else if (completed) {
 		movePage = true;
 		printAndSpeech(kioskScenario[8][2]);

@@ -7,6 +7,11 @@ let itemBoxHeight = 270;
 let menuPageHeight = 540;
 let focusedStartY = (menuPageHeight - itemBoxHeight) / 2;
 let cartPageIndex = 6;
+let orderNum = 501;
+
+let orderConfirm = false;
+let hotgConfirm = false;
+let cartEmpty = true;
 
 let price = [
 	["불고기 버거 세트", "새우 버거 세트", "치킨 버거 세트", "와퍼 세트",
@@ -55,14 +60,20 @@ let cart = {
 	"맥주":0
 };
 
+
 function getItem(menu, item) {
 	let hotg = document.getElementById("here-or-to-go");
-	if (menu > 0 && menu < 5) {
-		let tmpCount = 0;
+	let tmpCount = 0;
+	let tmpDiv = document.querySelector(`#menu-${cartPageIndex}>div`);
+	switch (menu)
+	{
+	case 1:
+	case 2:
+	case 3:
+	case 4:
 		cart[price[0][(menu - 1) * 4 + item].replaceAll(" ","")]++;
 		document.querySelector(".items").innerHTML = "";
 		totalPrice = 0;
-		let tmpDiv = document.querySelector(`#menu-${cartPageIndex}>div`);
 		tmpDiv.innerHTML = "";
 		price[0].forEach((val, index) => {
 			let tmpName = val.replaceAll(" ", "");
@@ -87,19 +98,20 @@ function getItem(menu, item) {
 		});
 		document.getElementById("total-price").innerHTML = totalPrice;
 		itemsInMenu[cartPageIndex] = tmpCount;
-	}
-	else if (menu == 5) {
+		cartEmpty = false;
+		break;
+	case 5:
 		if (item == 0) hotg.innerHTML = "매장";
-		else if (item == 1) hotg.innerHTML = "포장";							
-	}
-	else if (menu == 6) {
-		let tmpCount = 0;
+		else if (item == 1) hotg.innerHTML = "포장";
+		hotgConfirm = true;
+		break;
+	case 6:
 		let thisItem = document.querySelector(`#menu-${menu}>div>#item-${item}`);
+		if (thisItem == null) return;
 		let tmpString = thisItem.querySelector("h4").innerHTML.split(":")[0].replaceAll(" ", "");
 		cart[tmpString] -= (cart[tmpString] > 0)?(1):(0);
 		document.querySelector(".items").innerHTML = "";
 		totalPrice = 0;
-		let tmpDiv = document.querySelector(`#menu-${cartPageIndex}>div`);
 		tmpDiv.innerHTML = "";
 		price[0].forEach((val, index) => {
 			let tmpName = val.replaceAll(" ", "");
@@ -130,9 +142,42 @@ function getItem(menu, item) {
 		itemsInMenu[cartPageIndex] = tmpCount;
 		document.getElementById("total-price").innerHTML = totalPrice;
 		item = (item < itemsInMenu[cartPageIndex])?(item):(itemsInMenu[cartPageIndex] - 1);
-		--itemIndex;
+		itemIndex = item;
 
 		setFocus(menu, item);
+		break;
+	case 7:
+		if (cartEmpty) {
+			setFocus(cartPageIndex, 0);
+			return;
+		}
+		else if (!hotgConfirm) {
+			setFocus(cartPageIndex - 1, 0);
+			return;
+		}
+		let checkMessage = document.querySelector(`#menu-${cartPageIndex + 1}>div>#item-0>h4`);
+		checkMessage.innerHTML = "주문이 완료되었습니다.";
+		setTimeout(() => {
+			;
+		}, 3000);
+		
+
+		orderConfirm = false;
+		hotgConfirm = false;
+		cartEmpty = true;
+		price[0].forEach((val) => {
+			cart[val.replaceAll(" ", "")] = 0;
+		})
+		hotg.innerHTML = "매장 OR 포장";
+		document.querySelector(".items").innerHTML = "";
+		document.getElementById("total-price").innerHTML = "";	
+		document.querySelector("#order-id").innerHTML = ++orderNum;tmpDiv.innerHTML = '<div><div class="item-box" id="item-0"><img class="item-image" src="" /><h4>주문 내역이 없습니다.</h4></div></div>';
+		itemsInMenu[cartPageIndex] = 1;
+		menuIndex = 0;
+		itemIndex = 0;
+		setFocus(0, 0);
+		checkMessage.innerHTML = "주문 사항이 맞으시면 확인해주세요.";
+		break;
 	}
 }
 
@@ -148,6 +193,7 @@ function setFocus(menu, item) {
 			box.classList.remove("focused");
 		}
 	)
+	if (document.querySelector(`#menu-${menu}>div>#item-${item}`))
 	document.querySelector(`#menu-${menu}>div>#item-${item}`).classList.add("focused");
 	document.querySelector(".progress").value = menuIndex;
 }

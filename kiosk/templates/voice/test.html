@@ -168,7 +168,7 @@
 		<div class="space"></div>
 		<div class="receipt">
 			<div class="receipt-info">
-				주문 번호 <span id="order-id">{{ order_id }}</span>
+				주문 번호 <span id="order-id"></span>
 				<span id="here-or-to-go">매장 OR 포장 </span>
 			</div>
 			<table>
@@ -193,6 +193,7 @@
 			document.onmousemove = () => {
 				recognition.start();
 			};
+			document.querySelector("#order-id").innerHTML = orderNum;
 		</script>
 	</body>
 </html>

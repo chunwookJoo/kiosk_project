@@ -1,4 +1,3 @@
-
 //Video Size
 let width=480, height=640;
 
@@ -36,7 +35,7 @@ function StartVidoe(){
 }
 
 //Mat
-let src, dist, hsv, cap, dst, hsvs, M, anchor, ksize, distTrans, fingerMat;
+let src, dist, hsv, cap, dst, hsvs, M, anchor, ksize, distTrans, fingerMat, Bsdst, BsMainMat;
 //inRange
 let low, high, lower, upper;
 //Contour
@@ -47,6 +46,8 @@ let Red, Blue, Green;
 let defect, hullDefect;
 //finger
 let fingerContours, fingerHierarchy;
+//BackGround Subtractor
+let fgbg;
 
 function OpenCv() {
     //피부색
@@ -64,9 +65,9 @@ function OpenCv() {
     dist = new cv.Mat(height, width, cv.CV_8UC1);
     hsvs = new cv.Mat();
     dst = new cv.Mat();
-    
+ 
     //Morphological 설정
-    M = cv.Mat.ones(7, 7, cv.CV_8UC1);
+    M = cv.Mat.ones(6, 6, cv.CV_8UC1);
     anchor = new cv.Point(-1, -1);
 
     //캠
@@ -74,6 +75,8 @@ function OpenCv() {
 
     //GaussianBulr 설정
     ksize = new cv.Size(5, 5);
+
+    fgbg = new cv.BackgroundSubtractorMOG2(500, 16, true);
 
     fingerMat = new cv.Mat();
 
@@ -90,14 +93,13 @@ let MoevControl;
 function process() {
     let MaxW = 0, MaxH = 0, MaxX = 0, MaxY = 0, countPoint = 0;
     cap.read(src);
+
     // 손 찾기 쉽게 변경
     cv.GaussianBlur(src, src, ksize, 0, 0, cv.BORDER_DEFAULT);
 
     cv.cvtColor(src, hsv, cv.COLOR_RGBA2RGB);
-    cv.cvtColor(hsv, hsvs, cv.COLOR_RGB2HSV);
 
-    low = new cv.Mat(height, width, hsvs.type(), lower);
-    high = new cv.Mat(height, width, hsvs.type(), upper);
+    Bsdst = new cv.Mat();
     contours = new cv.MatVector();
     findContours = new cv.MatVector();
     fingerContours = new cv.MatVector();
@@ -105,13 +107,21 @@ function process() {
     hierarchy = new cv.Mat();
     hull = new cv.MatVector();
     distTrans = new cv.Mat();
+    BsMainMat = new cv.Mat();
 
+    fgbg.apply(hsv, Bsdst);
+    
+    cv.bitwise_and(hsv, hsv, BsMainMat, Bsdst);
+    cv.cvtColor(BsMainMat, hsvs, cv.COLOR_RGB2HSV);
+    console.log('BMM type : ' + BsMainMat.channels());
+
+    low = new cv.Mat(height, width, hsvs.type(), lower);
+    high = new cv.Mat(height, width, hsvs.type(), upper);
     //색 추출
     cv.inRange(hsvs, low, high, dist);
 
     //증식, 침식
-    cv.dilate(dist, dst, M, anchor, 3, cv.BORDER_CONSTANT, cv.morphologyDefaultBorderValue());
-    cv.erode(dst, dst, M, anchor, 1, cv.BORDER_CONSTANT, cv.morphologyDefaultBorderValue());
+    cv.dilate(dist, dst, M, anchor, 5, cv.BORDER_CONSTANT, cv.morphologyDefaultBorderValue());
 
     //경계선 찾기
     cv.findContours(dst, contours, hierarchy, cv.RETR_CCOMP, cv.CHAIN_APPROX_SIMPLE);
@@ -165,10 +175,7 @@ function process() {
     //손 트레킹
     cv.rectangle(src, new cv.Point(MaxX, MaxY), new cv.Point(MaxX + MaxW, MaxY +MaxH), Red, 2, cv.LINE_AA, 0);
 
-    //좌우 변경
-    cv.flip(src,src,1);
-
-    if(TimeChek + 1000 < tempTimeChek){
+    if(TimeChek + 700 < tempTimeChek){
         console.log("go");
         testText2.innerHTML = "o";
         if(selectCount > 5){
@@ -205,42 +212,45 @@ function process() {
             moveCountX = 0;
             moveCountY = 0;
         }
+
     	switch(MoevControl){
-        case 0: 
-        	testText.innerHTML = "Check";
+		case 0: 
+			testText.innerHTML = "Check";
 			TimeChek = Date.now();
 			getItem(menuIndex, itemIndex);
-            break;
-        case 1: 
-            break;
-        case 2: 
-            testText.innerHTML = "Right";
-            select = true;
+			break;
+		case 1: 
+			break;
+		case 2: 
+			testText.innerHTML = "Right";
+			select = true;
 			TimeChek = Date.now();
 			if (menuIndex > 0) menuIndex--;
 			itemIndex = Math.floor(itemsInMenu[menuIndex] / 2);
 			break;
 		case 3: 
-            testText.innerHTML = "Left";
-            select = true;
-            TimeChek = Date.now();
+			testText.innerHTML = "Left";
+			select = true;
+			TimeChek = Date.now();
 			if (menuIndex < itemsInMenu.length - 1) menuIndex++;
 			itemIndex = (itemIndex < itemsInMenu[menuIndex] - 1)?(itemIndex):(itemsInMenu[menuIndex] - 1);
 			break;
 		case 4: 
-            testText.innerHTML = "Up";
-            select = true;
+			testText.innerHTML = "Up";
+			select = true;
 			TimeChek = Date.now();
 			if (itemIndex < itemsInMenu[menuIndex] - 1) itemIndex++;
-            break;
+			break;
 		case 5: 
-            testText.innerHTML = "Down";
-            select = true;
-            TimeChek = Date.now();
+			testText.innerHTML = "Down";
+			select = true;
+			TimeChek = Date.now();
 			if (itemIndex > 0) itemIndex--;
 			break;
 		}
 		setFocus(menuIndex, itemIndex);
+        centerX = MaxX + (MaxW/2);
+        centerY = MaxY + (MaxH/2);
         
         tempTimeChek =Date.now();
     }else{
@@ -256,6 +266,8 @@ function process() {
         centerY = MaxY + (MaxH/2);
     }
 
+    //좌우 변경
+    cv.flip(src,src,1);
 
     //'output' 캔버스에 이미지 로딩
     cv.imshow('output', src);
@@ -272,7 +284,8 @@ function process() {
     findContours.delete();
     fingerContours.delete();
     fingerHierarchy.delete();
-
+    BsMainMat.delete();
+    Bsdst.delete();
     //Windows에 이미지 리로딩 부탁
     requestAnimationFrame(process); 
 }

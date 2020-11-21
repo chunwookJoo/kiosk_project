@@ -17,13 +17,9 @@ def nlp(request, text):
     return response
 
 
-def test(request, order_id):
-    return render(request, 'voice/test.html', {'order_id': order_id})
+def voice(request):
+    return render(request, 'voice/test.html')
 
 
-def voice(request, order_id):
-    return render(request, 'voice/test.html', {'order_id': order_id})
-
-
-def motion(request, order_id):
-    return render(request, 'motion/test.html', {'order_id': order_id})
+def motion(request):
+    return render(request, 'motion/test.html')

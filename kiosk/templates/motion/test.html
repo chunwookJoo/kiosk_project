@@ -210,7 +210,9 @@
 											class="item-image"
 											src="/static/Img/check.jpg"
 										/>
-										<h4>주문 사항이 맞으시면 확인.</h4>
+										<h4>
+											주문 사항이 맞으시면 확인해주세요.
+										</h4>
 									</div>
 								</div>
 							</div>
@@ -233,7 +235,7 @@
 		<progress class="progress" value="0" max="7"></progress>
 		<div class="receipt">
 			<div class="receipt-info">
-				주문 번호 <span id="order-id">{{ order_id }}</span>
+				주문 번호 <span id="order-id"></span>
 				<span id="here-or-to-go">매장 OR 포장 </span>
 			</div>
 			<table>
@@ -255,6 +257,7 @@
 		<script src="{% static '/js/opencvTest.js' %}"></script>
 		<script>
 			setFocus(0, 0);
+			document.querySelector("#order-id").innerHTML = orderNum;
 		</script>
 	</body>
 </html>

@@ -75,6 +75,8 @@ kioskScenario = [
 	[`와 같이 메뉴와 수량을 말씀해주세요.`, `결제하시려면 ${ws}결제${we}, 메뉴 이동을 원하시면 `, " 중에서 말씀해주세요.", " 중에서 원하시는 메뉴를 말씀해주세요."],
 ];
 
+let orderNum = 1;
+
 let movePage = false;
 let orderConfirm = false;
 let hotgConfirm = false;
@@ -171,8 +173,11 @@ recognition.onend = async () => {
 			switch (screen) {
 			case 1:
 				totalPrice = 0;
-				cartEmpty = true;
+				movePage = false;
+				orderConfirm = false;
 				hotgConfirm = false;
+				completed = false;
+				cartEmpty = true;
 				hotg.innerHTML = "";
 				price[0].forEach((val) => {
 					cart[val.replaceAll(" ", "")] = 0;
@@ -185,9 +190,12 @@ recognition.onend = async () => {
 				printAndSpeech(kioskScenario[screen][0]);
 				break;
 			case 3:
-				if (!cartEmpty) screen = 8;
-				showBox();
 				orderConfirm = false;
+				if (!cartEmpty) {
+					screen = 8;
+					orderConfirm = true;
+				}
+				showBox();
 				if (sttResult[0]["name"] == "매장") {
 					hotg.innerHTML = "매장";
 					hotgConfirm = true;
@@ -217,7 +225,8 @@ recognition.onend = async () => {
 				if (cartEmpty) {
 					screen = 3;
 					showBox();
-					orderConfirm = false;tmpText = "<strong>" + kioskScenario[screen].join("</strong>, <strong>") + "</strong>" + kioskScenario[9][0];
+					orderConfirm = false;
+					tmpText = "<strong>" + kioskScenario[screen].join("</strong>, <strong>") + "</strong>" + kioskScenario[9][0];
 					printAndSpeech(tmpText);
 				}
 				else if (!hotgConfirm) {
