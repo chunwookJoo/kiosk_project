@@ -33,7 +33,7 @@ def check_new_text(text):
 
 def rndModel(new_sentence):
     stopwords = ['메뉴', '보이다', '줄다', '이요', '요', '의', '로', '가', '이', '은', '들', '는', '좀',
-                 '잘', '걍', '과', '도', '를', '으로', '자', '에', '와', '한', '하다', '저기요', '주세요', '할게요', '하세요']
+                 '잘', '걍', '과', '도', '를', '으로', '자', '에', '와', '한', '하다', '저기요', '주세요', '할게요', '하세요', '주다']
     # global order_data
     text = new_sentence
     new_sentence = spacing_okt(new_sentence)
@@ -47,13 +47,22 @@ def rndModel(new_sentence):
 
     # 정수 인코딩
     encoded = tokenizer.texts_to_sequences([new_sentence])
-    # print(new_sentence)
+    print(new_sentence)
     # print(encoded)
 
     if check_new_text(encoded[0]) == False:
         print("이해할수 없는 단어")
 
     else:
+        deleteList = []
+        for x in range(len(encoded[0])):
+            if encoded[0][x] == 1:
+                deleteList.append(x)
+        deleteList.sort(reverse=True)
+
+        if len(deleteList):
+            for x in deleteList:
+                encoded[0].pop(x)
         # 패딩
         pad_new = pad_sequences(encoded, maxlen=4)
         # print(pad_new)
